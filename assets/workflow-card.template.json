@@ -1,0 +1,20 @@
+{
+  "id": "bg-replace-v1",
+  "name": "背景替换",
+  "modality": "image",
+  "task_family": "背景编辑",
+  "summary": "将输入图像中指定区域替换为按描述生成的新背景",
+  "inputs": [
+    { "slot": "image", "type": "image", "required": true, "desc": "原始图像" },
+    { "slot": "mask", "type": "mask", "required": false, "desc": "目标区域蒙版；缺省时由 prompt 生成" }
+  ],
+  "outputs": [
+    { "slot": "result", "type": "image", "desc": "替换背景后的图像" }
+  ],
+  "params": [
+    { "name": "prompt", "type": "string", "required": true, "desc": "新背景描述" },
+    { "name": "denoise", "type": "float", "range": [0.5, 0.9], "default": 0.75, "desc": "重绘幅度" }
+  ],
+  "api_graph": "workflows/bg_replace.json",
+  "notes": "人物主体姿态保持较好；大角度视角变化可能失真"
+}

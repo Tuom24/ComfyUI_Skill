@@ -1,0 +1,29 @@
+{
+  "task": "把女子照片的背景换成大厅，再将结果生成一段视频",
+  "materials": {
+    "photo": "user/photo.jpg"
+  },
+  "stages": [
+    {
+      "stage": 1,
+      "workflow": "bg-replace-v1",
+      "bindings": {
+        "image": "material:photo",
+        "prompt": "宽敞明亮的大厅，自然光"
+      },
+      "params": { "denoise": 0.75 },
+      "outputs_to": { "result": "stage1.bg" }
+    },
+    {
+      "stage": 2,
+      "workflow": "image-to-video-v1",
+      "bindings": {
+        "image": "stage1.bg",
+        "prompt": "镜头缓慢推进，光影自然流动"
+      },
+      "params": { "duration": 4 },
+      "outputs_to": { "result": "final" }
+    }
+  ],
+  "final_output": "final"
+}
