@@ -1,0 +1,71 @@
+{
+  "id": "W7c308dbf4e",
+  "name": "在蒙版选中的区域生成并添加指定物体。",
+  "modality": "image",
+  "task_family": "Object_Editing",
+  "operation": "Object_Editing/addition",
+  "kind": "base",
+  "summary": "在蒙版选中的区域生成并添加指定物体。（输入：图像、添加区域蒙版、目标物体描述。）",
+  "inputs": [
+    {
+      "slot": "image",
+      "type": "image",
+      "required": true,
+      "desc": "原始图像"
+    },
+    {
+      "slot": "mask",
+      "type": "mask",
+      "required": false,
+      "desc": "目标区域蒙版（替换/编辑区为白色）"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "image",
+      "desc": "生成的图像"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    },
+    {
+      "name": "denoise",
+      "type": "float",
+      "range": [
+        0.1,
+        1.0
+      ],
+      "default": 1,
+      "desc": "重绘幅度"
+    },
+    {
+      "name": "steps",
+      "type": "int",
+      "range": [
+        8,
+        80
+      ],
+      "default": 20,
+      "desc": "采样步数"
+    },
+    {
+      "name": "cfg",
+      "type": "float",
+      "range": [
+        1.0,
+        12.0
+      ],
+      "default": 1,
+      "desc": "提示词遵循强度"
+    }
+  ],
+  "api_graph": "workflows/W7c308dbf4e/workflow_api.json",
+  "sha256": "f937bdd310300b4999853e0e4e87389a7d4c1c584973b48c6011aea015edc59e",
+  "notes": "输出：添加物体后的图像。；模型配置：flux1-fill-dev"
+}

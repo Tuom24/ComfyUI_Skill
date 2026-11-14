@@ -1,0 +1,65 @@
+{
+  "id": "W2b2a3bcc25",
+  "name": "提取参考图像的边缘结构，生成保留其场景布局的新图",
+  "modality": "image",
+  "task_family": "Style_Editing",
+  "operation": "Style_Editing/content_cloning",
+  "kind": "base",
+  "summary": "提取参考图像的边缘结构，生成保留其场景布局的新图像。（输入：布局参考图像、目标内容描述。）",
+  "inputs": [
+    {
+      "slot": "image",
+      "type": "image",
+      "required": true,
+      "desc": "原始图像"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "image",
+      "desc": "生成的图像"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    },
+    {
+      "name": "denoise",
+      "type": "float",
+      "range": [
+        0.1,
+        1.0
+      ],
+      "default": 1,
+      "desc": "重绘幅度"
+    },
+    {
+      "name": "steps",
+      "type": "int",
+      "range": [
+        8,
+        80
+      ],
+      "default": 20,
+      "desc": "采样步数"
+    },
+    {
+      "name": "cfg",
+      "type": "float",
+      "range": [
+        1.0,
+        12.0
+      ],
+      "default": 7,
+      "desc": "提示词遵循强度"
+    }
+  ],
+  "api_graph": "workflows/W2b2a3bcc25/workflow_api.json",
+  "sha256": "854e0615fd15cc2fa3a513792992fadd91001a337157a3cd60b22e62ff20aed9",
+  "notes": "输出：参考布局的新图像。；模型配置：flux1-canny-dev"
+}

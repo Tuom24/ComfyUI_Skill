@@ -1,0 +1,35 @@
+{
+  "id": "Wddd72e408d",
+  "name": "在已有图像上叠加指定文字。",
+  "modality": "image",
+  "task_family": "Misc_Editing",
+  "operation": "Misc_Editing/text_overlay",
+  "kind": "base",
+  "summary": "在已有图像上叠加指定文字。（输入：图像、文字内容和排版信息。）",
+  "inputs": [
+    {
+      "slot": "image",
+      "type": "image",
+      "required": true,
+      "desc": "原始图像"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "image",
+      "desc": "生成的图像"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    }
+  ],
+  "api_graph": "workflows/Wddd72e408d/workflow_api.json",
+  "sha256": "1829f03adc9be05ba466f2fc6fd67018ffbd8d598b50e0baf7fad3356e43775f",
+  "notes": "输出：带叠加文字的图像。；模型配置：utility"
+}

@@ -1,0 +1,35 @@
+{
+  "id": "W58c586577d",
+  "name": "在同一时间轴上，将第一路画面逐渐淡化为第二路对应",
+  "modality": "video",
+  "task_family": "Video_Editing",
+  "operation": "Video_Editing/transition",
+  "kind": "base",
+  "summary": "在同一时间轴上，将第一路画面逐渐淡化为第二路对应时间的画面。（输入：两个同帧率、同尺寸、等长的视频片段、淡化起始位置和长度。）",
+  "inputs": [
+    {
+      "slot": "video",
+      "type": "video",
+      "required": true,
+      "desc": "输入视频"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "video",
+      "desc": "生成的视频"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    }
+  ],
+  "api_graph": "workflows/W58c586577d/workflow_api.json",
+  "sha256": "b56d958318d5d3ef98939686f9479cbfe7cd05f0f562af5abfd35bd62050bc6b",
+  "notes": "输出：同时间轴交叉淡化的无声视频，帧数等于第二路已加载帧数。；模型配置：utility"
+}

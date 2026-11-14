@@ -1,0 +1,35 @@
+{
+  "id": "W203425ac34",
+  "name": "将人物照片转换为正面、居中、纯色背景的证件照。",
+  "modality": "image",
+  "task_family": "Identity_Editing",
+  "operation": "Identity_Editing/id_photo",
+  "kind": "base",
+  "summary": "将人物照片转换为正面、居中、纯色背景的证件照。（输入：人物图像、证件照要求。）",
+  "inputs": [
+    {
+      "slot": "image",
+      "type": "image",
+      "required": true,
+      "desc": "原始图像"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "image",
+      "desc": "生成的图像"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    }
+  ],
+  "api_graph": "workflows/W203425ac34/workflow_api.json",
+  "sha256": "9014c3abf71039d0b4f01f44ba479b71b60fd69eb47e5141aea859e0d780217b",
+  "notes": "输出：证件照图像。；模型配置：flux2-klein-4b"
+}

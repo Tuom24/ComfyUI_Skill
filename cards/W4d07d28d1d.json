@@ -1,0 +1,35 @@
+{
+  "id": "W4d07d28d1d",
+  "name": "使用超分辨率模型放大图像并增强细节。",
+  "modality": "image",
+  "task_family": "Geometry_Editing",
+  "operation": "Geometry_Editing/upscaling",
+  "kind": "base",
+  "summary": "使用超分辨率模型放大图像并增强细节。（输入：图像。）",
+  "inputs": [
+    {
+      "slot": "image",
+      "type": "image",
+      "required": true,
+      "desc": "原始图像"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "image",
+      "desc": "生成的图像"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    }
+  ],
+  "api_graph": "workflows/W4d07d28d1d/workflow_api.json",
+  "sha256": "868de2f80d4016b84fe54c267cb368325aab71195f810deec786c0203b992874",
+  "notes": "输出：放大后的图像。；模型配置：RealESRGAN_x4plus.pth"
+}

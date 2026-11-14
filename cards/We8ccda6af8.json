@@ -1,0 +1,41 @@
+{
+  "id": "We8ccda6af8",
+  "name": "改变蒙版选中皮肤区域的肤色。",
+  "modality": "image",
+  "task_family": "Identity_Editing",
+  "operation": "Identity_Editing/skin_color",
+  "kind": "base",
+  "summary": "改变蒙版选中皮肤区域的肤色。（输入：人物图像、皮肤区域蒙版、目标肤色描述。）",
+  "inputs": [
+    {
+      "slot": "image",
+      "type": "image",
+      "required": true,
+      "desc": "原始图像"
+    },
+    {
+      "slot": "mask",
+      "type": "mask",
+      "required": false,
+      "desc": "目标区域蒙版（替换/编辑区为白色）"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "image",
+      "desc": "生成的图像"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    }
+  ],
+  "api_graph": "workflows/We8ccda6af8/workflow_api.json",
+  "sha256": "d2dfbd0a646f2738cbd48424d964b0f0562cf1353c95348ecd08d3373fb0f538",
+  "notes": "输出：肤色改变后的图像。；模型配置：flux2-klein-4b"
+}

@@ -1,0 +1,35 @@
+{
+  "id": "W742bf9649e",
+  "name": "在视频相邻帧之间生成中间帧，并相应提高输出帧率。",
+  "modality": "video",
+  "task_family": "Enhancement",
+  "operation": "Enhancement/frame_interpolation",
+  "kind": "base",
+  "summary": "在视频相邻帧之间生成中间帧，并相应提高输出帧率。（输入：视频、插帧倍率与相同的输出帧率乘数。）",
+  "inputs": [
+    {
+      "slot": "video",
+      "type": "video",
+      "required": true,
+      "desc": "输入视频"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "video",
+      "desc": "生成的视频"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    }
+  ],
+  "api_graph": "workflows/W742bf9649e/workflow_api.json",
+  "sha256": "64e969114b8d042b71441bd0f993b87d30a82fe87785335cbb3c43173129feaa",
+  "notes": "输出：帧率提高的无声视频，帧数为（输入帧数−1）×倍率＋1。；模型配置：FILM"
+}

@@ -1,0 +1,65 @@
+{
+  "id": "W71051a0184",
+  "name": "根据文本描述生成具有主体运动和场景变化的视频。",
+  "modality": "video",
+  "task_family": "Generation",
+  "operation": "Generation/text_to_video",
+  "kind": "base",
+  "summary": "根据文本描述生成具有主体运动和场景变化的视频。（输入：场景和运动过程描述。）",
+  "inputs": [
+    {
+      "slot": "image",
+      "type": "image",
+      "required": false,
+      "desc": "可选首帧图像"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "video",
+      "desc": "生成的视频"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    },
+    {
+      "name": "denoise",
+      "type": "float",
+      "range": [
+        0.1,
+        1.0
+      ],
+      "default": 1.0,
+      "desc": "重绘幅度"
+    },
+    {
+      "name": "steps",
+      "type": "int",
+      "range": [
+        8,
+        80
+      ],
+      "default": 20,
+      "desc": "采样步数"
+    },
+    {
+      "name": "cfg",
+      "type": "float",
+      "range": [
+        1.0,
+        12.0
+      ],
+      "default": 6.0,
+      "desc": "提示词遵循强度"
+    }
+  ],
+  "api_graph": "workflows/W71051a0184/workflow_api.json",
+  "sha256": "db052622a9ced076740a16965b6d7cda20a9a143c0e3353bfc465bdc300bd5f5",
+  "notes": "输出：生成的视频。；模型配置：hunyuanvideo1.5"
+}

@@ -1,0 +1,28 @@
+{
+  "id": "W04dc26c831",
+  "name": "根据主题和文字要求生成海报。",
+  "modality": "image",
+  "task_family": "Creative_Design",
+  "operation": "Creative_Design/poster",
+  "kind": "base",
+  "summary": "根据主题和文字要求生成海报。（输入：海报主题、文字内容和版式描述。）",
+  "inputs": [],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "image",
+      "desc": "生成的图像"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    }
+  ],
+  "api_graph": "workflows/W04dc26c831/workflow_api.json",
+  "sha256": "df1de653395f8536d1385c83dc2bba7796e11025f16291419527fcd7cc4e654e",
+  "notes": "输出：海报图像。；模型配置：flux2-klein-4b"
+}

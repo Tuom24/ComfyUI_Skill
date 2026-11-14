@@ -1,0 +1,65 @@
+{
+  "id": "W99f867248b",
+  "name": "根据输入场景图像生成镜头移动或视角变化的视频。",
+  "modality": "video",
+  "task_family": "Generation",
+  "operation": "Generation/panoramic_exploration",
+  "kind": "base",
+  "summary": "根据输入场景图像生成镜头移动或视角变化的视频。（输入：场景图像、镜头运动描述。）",
+  "inputs": [
+    {
+      "slot": "image",
+      "type": "image",
+      "required": true,
+      "desc": "原始图像"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "video",
+      "desc": "生成的视频"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    },
+    {
+      "name": "denoise",
+      "type": "float",
+      "range": [
+        0.1,
+        1.0
+      ],
+      "default": 1.0,
+      "desc": "重绘幅度"
+    },
+    {
+      "name": "steps",
+      "type": "int",
+      "range": [
+        8,
+        80
+      ],
+      "default": 20,
+      "desc": "采样步数"
+    },
+    {
+      "name": "cfg",
+      "type": "float",
+      "range": [
+        1.0,
+        12.0
+      ],
+      "default": 5.0,
+      "desc": "提示词遵循强度"
+    }
+  ],
+  "api_graph": "workflows/W99f867248b/workflow_api.json",
+  "sha256": "2e4a05a80323d428b73d88f00d78023f71a0f6b0cee4e3dc2dd41f78e606d4d5",
+  "notes": "输出：视角变化的视频。；模型配置：wan2.2-ti2v-5b"
+}

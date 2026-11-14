@@ -1,0 +1,35 @@
+{
+  "id": "Wce0bacc07d",
+  "name": "使用人脸重建模型修复模糊或受损的人脸。",
+  "modality": "image",
+  "task_family": "Face_Editing",
+  "operation": "Face_Editing/refinement",
+  "kind": "base",
+  "summary": "使用人脸重建模型修复模糊或受损的人脸。（输入：含人脸的图像。）",
+  "inputs": [
+    {
+      "slot": "image",
+      "type": "image",
+      "required": true,
+      "desc": "原始图像"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "image",
+      "desc": "生成的图像"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    }
+  ],
+  "api_graph": "workflows/Wce0bacc07d/workflow_api.json",
+  "sha256": "2d8d1bd873cc813dce486e7fcbd08a2b7c7c2940b053064537e542e38b80263c",
+  "notes": "输出：人脸修复后的图像。；模型配置：codeformer.pth"
+}

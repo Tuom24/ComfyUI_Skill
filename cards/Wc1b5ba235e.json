@@ -1,0 +1,28 @@
+{
+  "id": "Wc1b5ba235e",
+  "name": "生成信纸画面，并用手写风格字体叠加指定信件文字。",
+  "modality": "image",
+  "task_family": "Creative_Design",
+  "operation": "Creative_Design/handwritten_letter",
+  "kind": "base",
+  "summary": "生成信纸画面，并用手写风格字体叠加指定信件文字。（输入：信纸外观描述、信件文字内容、字体和排版信息。）",
+  "inputs": [],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "image",
+      "desc": "生成的图像"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    }
+  ],
+  "api_graph": "workflows/Wc1b5ba235e/workflow_api.json",
+  "sha256": "e5a19d8f771b923c9c01865f0efe5eff025377d8b93f32a01d9afe2ac13ade93",
+  "notes": "输出：手写字体风格的信件图像。；模型配置：flux2-klein-4b"
+}

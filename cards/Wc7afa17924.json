@@ -1,0 +1,41 @@
+{
+  "id": "Wc7afa17924",
+  "name": "对蒙版选中的图像区域旋转色相，实现局部调色。",
+  "modality": "image",
+  "task_family": "Style_Editing",
+  "operation": "Style_Editing/repainting",
+  "kind": "existing_template",
+  "summary": "对蒙版选中的图像区域旋转色相，实现局部调色。（输入：图像、调色区域蒙版、色相偏移量。）",
+  "inputs": [
+    {
+      "slot": "image",
+      "type": "image",
+      "required": true,
+      "desc": "原始图像"
+    },
+    {
+      "slot": "mask",
+      "type": "mask",
+      "required": false,
+      "desc": "目标区域蒙版（替换/编辑区为白色）"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "image",
+      "desc": "生成的图像"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    }
+  ],
+  "api_graph": "workflows/Wc7afa17924/workflow_api.json",
+  "sha256": "5679a0cfaa5a79b77433abce3981d34895bb576ab3db17594c44d2f7d57dc5b8",
+  "notes": "输出：局部调色后的图像。；模型配置：sd1.5-ip2p"
+}

@@ -1,0 +1,35 @@
+{
+  "id": "W4f4e0c0270",
+  "name": "根据描述改变人物的年龄外观。",
+  "modality": "image",
+  "task_family": "Identity_Editing",
+  "operation": "Identity_Editing/age_progression",
+  "kind": "base",
+  "summary": "根据描述改变人物的年龄外观。（输入：人物图像、目标年龄描述。）",
+  "inputs": [
+    {
+      "slot": "image",
+      "type": "image",
+      "required": true,
+      "desc": "原始图像"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "image",
+      "desc": "生成的图像"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    }
+  ],
+  "api_graph": "workflows/W4f4e0c0270/workflow_api.json",
+  "sha256": "1d6bc7c0c93f5f4322bf6b9e1abe383b4038635b59597385558789b1100090ff",
+  "notes": "输出：年龄外观改变后的图像。；模型配置：flux2-klein-4b"
+}

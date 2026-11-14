@@ -1,0 +1,35 @@
+{
+  "id": "W63a9ade2c8",
+  "name": "将图像中的人物或主体转换为雕塑艺术外观。",
+  "modality": "image",
+  "task_family": "Style_Editing",
+  "operation": "Style_Editing/sculpture_conversion",
+  "kind": "base",
+  "summary": "将图像中的人物或主体转换为雕塑艺术外观。（输入：图像、目标雕塑外观描述。）",
+  "inputs": [
+    {
+      "slot": "image",
+      "type": "image",
+      "required": true,
+      "desc": "原始图像"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "image",
+      "desc": "生成的图像"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    }
+  ],
+  "api_graph": "workflows/W63a9ade2c8/workflow_api.json",
+  "sha256": "645f5719c78b916dc81f414b77470c7be3a2e3315e7984a91ffe06fe418b3482",
+  "notes": "输出：雕塑外观图像。；模型配置：flux2-klein-4b"
+}

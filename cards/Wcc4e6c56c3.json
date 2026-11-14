@@ -1,0 +1,65 @@
+{
+  "id": "Wcc4e6c56c3",
+  "name": "从参考图像提取人体姿态，生成具有该姿态的新图像。",
+  "modality": "image",
+  "task_family": "Pose_Editing",
+  "operation": "Pose_Editing/cloning",
+  "kind": "base",
+  "summary": "从参考图像提取人体姿态，生成具有该姿态的新图像。（输入：姿态参考图像、目标人物和场景描述。）",
+  "inputs": [
+    {
+      "slot": "image",
+      "type": "image",
+      "required": true,
+      "desc": "原始图像"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "image",
+      "desc": "生成的图像"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    },
+    {
+      "name": "denoise",
+      "type": "float",
+      "range": [
+        0.1,
+        1.0
+      ],
+      "default": 1.0,
+      "desc": "重绘幅度"
+    },
+    {
+      "name": "steps",
+      "type": "int",
+      "range": [
+        8,
+        80
+      ],
+      "default": 26,
+      "desc": "采样步数"
+    },
+    {
+      "name": "cfg",
+      "type": "float",
+      "range": [
+        1.0,
+        12.0
+      ],
+      "default": 8.0,
+      "desc": "提示词遵循强度"
+    }
+  ],
+  "api_graph": "workflows/Wcc4e6c56c3/workflow_api.json",
+  "sha256": "221991215f1d609cd0d7a7c6705487d38d5f43d385f7e13d6997076e11fcded3",
+  "notes": "输出：姿态匹配的新图像。；模型配置：sd_xl_base_1.0.safetensors"
+}

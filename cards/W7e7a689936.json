@@ -1,0 +1,65 @@
+{
+  "id": "W7e7a689936",
+  "name": "生成光照参考帧，通过全局色彩匹配、曝光和染色调整",
+  "modality": "video",
+  "task_family": "Lighting_Editing",
+  "operation": "Lighting_Editing/modification",
+  "kind": "base",
+  "summary": "生成光照参考帧，通过全局色彩匹配、曝光和染色调整视频色温及明暗。（输入：视频、目标光照描述。）",
+  "inputs": [
+    {
+      "slot": "video",
+      "type": "video",
+      "required": true,
+      "desc": "输入视频"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "video",
+      "desc": "生成的视频"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    },
+    {
+      "name": "denoise",
+      "type": "float",
+      "range": [
+        0.1,
+        1.0
+      ],
+      "default": 1.0,
+      "desc": "重绘幅度"
+    },
+    {
+      "name": "steps",
+      "type": "int",
+      "range": [
+        8,
+        80
+      ],
+      "default": 4,
+      "desc": "采样步数"
+    },
+    {
+      "name": "cfg",
+      "type": "float",
+      "range": [
+        1.0,
+        12.0
+      ],
+      "default": 1.0,
+      "desc": "提示词遵循强度"
+    }
+  ],
+  "api_graph": "workflows/W7e7a689936/workflow_api.json",
+  "sha256": "984b41644750002dd7c2f39a56cefff156700cc6635f05303af52259d6fcfd93",
+  "notes": "输出：整体色彩和明暗调整后的无声视频，默认夜景冷色调、8 帧/秒。；模型配置：qwen-image-edit-2509-relight-hybrid"
+}

@@ -1,0 +1,71 @@
+{
+  "id": "Wf6e27941cf",
+  "name": "替换图像中蒙版选中的背景，生成新的背景场景。",
+  "modality": "image",
+  "task_family": "Background_Editing",
+  "operation": "Background_Editing/replacement",
+  "kind": "base",
+  "summary": "替换图像中蒙版选中的背景，生成新的背景场景。（输入：图像、背景区域蒙版、新背景描述。）",
+  "inputs": [
+    {
+      "slot": "image",
+      "type": "image",
+      "required": true,
+      "desc": "原始图像"
+    },
+    {
+      "slot": "mask",
+      "type": "mask",
+      "required": false,
+      "desc": "目标区域蒙版（替换/编辑区为白色）"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "image",
+      "desc": "生成的图像"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    },
+    {
+      "name": "denoise",
+      "type": "float",
+      "range": [
+        0.1,
+        1.0
+      ],
+      "default": 1,
+      "desc": "重绘幅度"
+    },
+    {
+      "name": "steps",
+      "type": "int",
+      "range": [
+        8,
+        80
+      ],
+      "default": 20,
+      "desc": "采样步数"
+    },
+    {
+      "name": "cfg",
+      "type": "float",
+      "range": [
+        1.0,
+        12.0
+      ],
+      "default": 1,
+      "desc": "提示词遵循强度"
+    }
+  ],
+  "api_graph": "workflows/Wf6e27941cf/workflow_api.json",
+  "sha256": "58ba383f528f226d5b78323f503058ce417f81954117bec67488f48e9cedf5c2",
+  "notes": "输出：背景替换后的图像。；模型配置：flux1-fill-dev.safetensors"
+}

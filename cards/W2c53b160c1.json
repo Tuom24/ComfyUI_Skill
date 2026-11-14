@@ -1,0 +1,28 @@
+{
+  "id": "W2c53b160c1",
+  "name": "分别生成四幅画面，并拼成二乘二的四格漫画。",
+  "modality": "image",
+  "task_family": "Creative_Design",
+  "operation": "Creative_Design/comic_strip",
+  "kind": "base",
+  "summary": "分别生成四幅画面，并拼成二乘二的四格漫画。（输入：四格画面的内容描述。）",
+  "inputs": [],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "image",
+      "desc": "生成的图像"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    }
+  ],
+  "api_graph": "workflows/W2c53b160c1/workflow_api.json",
+  "sha256": "854e87650fa4682632f28386868fe1d900bd7e682eeef8fa52bec61f38287e2c",
+  "notes": "输出：四格漫画图像。；模型配置：flux2-klein-4b"
+}

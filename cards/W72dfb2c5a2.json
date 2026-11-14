@@ -1,0 +1,35 @@
+{
+  "id": "W72dfb2c5a2",
+  "name": "根据指令修复旧照片中的划痕、污损、褪色和模糊，默",
+  "modality": "image",
+  "task_family": "Restoration",
+  "operation": "Restoration/old_photo_fix",
+  "kind": "base",
+  "summary": "根据指令修复旧照片中的划痕、污损、褪色和模糊，默认同时自然上色。（输入：旧照片图像、修复与上色描述。）",
+  "inputs": [
+    {
+      "slot": "image",
+      "type": "image",
+      "required": true,
+      "desc": "原始图像"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "image",
+      "desc": "生成的图像"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    }
+  ],
+  "api_graph": "workflows/W72dfb2c5a2/workflow_api.json",
+  "sha256": "261264aaae857bd571c7fd8479cd4f8532029bd1c9033444d9626b8a28154f82",
+  "notes": "输出：修复后的照片图像，默认输出彩色照片。；模型配置：flux2-klein-4b"
+}

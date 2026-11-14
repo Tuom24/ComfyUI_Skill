@@ -1,0 +1,71 @@
+{
+  "id": "W1beaa71025",
+  "name": "重绘蒙版选中的缺陷区域，修复局部形状或细节。",
+  "modality": "image",
+  "task_family": "Restoration",
+  "operation": "Restoration/defect_fix",
+  "kind": "base",
+  "summary": "重绘蒙版选中的缺陷区域，修复局部形状或细节。（输入：图像、缺陷区域蒙版、修复描述。）",
+  "inputs": [
+    {
+      "slot": "image",
+      "type": "image",
+      "required": true,
+      "desc": "原始图像"
+    },
+    {
+      "slot": "mask",
+      "type": "mask",
+      "required": false,
+      "desc": "目标区域蒙版（替换/编辑区为白色）"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "image",
+      "desc": "生成的图像"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    },
+    {
+      "name": "denoise",
+      "type": "float",
+      "range": [
+        0.1,
+        1.0
+      ],
+      "default": 1,
+      "desc": "重绘幅度"
+    },
+    {
+      "name": "steps",
+      "type": "int",
+      "range": [
+        8,
+        80
+      ],
+      "default": 20,
+      "desc": "采样步数"
+    },
+    {
+      "name": "cfg",
+      "type": "float",
+      "range": [
+        1.0,
+        12.0
+      ],
+      "default": 1,
+      "desc": "提示词遵循强度"
+    }
+  ],
+  "api_graph": "workflows/W1beaa71025/workflow_api.json",
+  "sha256": "1eb25280caa955584e437c5290e486c7a5619a1d3207062a0ec8963d093d7708",
+  "notes": "输出：局部修复后的图像。；模型配置：flux1-fill-dev"
+}

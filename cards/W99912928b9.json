@@ -1,0 +1,35 @@
+{
+  "id": "W99912928b9",
+  "name": "逐帧提取并反转图像线稿，将视频转换为线描风格。",
+  "modality": "video",
+  "task_family": "Style_Editing",
+  "operation": "Style_Editing/style_transfer",
+  "kind": "base",
+  "summary": "逐帧提取并反转图像线稿，将视频转换为线描风格。（输入：视频。）",
+  "inputs": [
+    {
+      "slot": "video",
+      "type": "video",
+      "required": true,
+      "desc": "输入视频"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "video",
+      "desc": "生成的视频"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    }
+  ],
+  "api_graph": "workflows/W99912928b9/workflow_api.json",
+  "sha256": "d4c19f28ce18cba5d62d0b9a553dcda97806a88a4fcb4d6a5e27980c7932ec19",
+  "notes": "输出：线描风格视频。；模型配置：animatediff-sdxl"
+}

@@ -1,0 +1,71 @@
+{
+  "id": "We1b47ae3a2",
+  "name": "改变人物的性别外观，并通过蒙版合成编辑区域。",
+  "modality": "image",
+  "task_family": "Identity_Editing",
+  "operation": "Identity_Editing/gender_swap",
+  "kind": "base",
+  "summary": "改变人物的性别外观，并通过蒙版合成编辑区域。（输入：人物图像、编辑区域蒙版、目标外观描述。）",
+  "inputs": [
+    {
+      "slot": "image",
+      "type": "image",
+      "required": true,
+      "desc": "原始图像"
+    },
+    {
+      "slot": "mask",
+      "type": "mask",
+      "required": false,
+      "desc": "目标区域蒙版（替换/编辑区为白色）"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "image",
+      "desc": "生成的图像"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    },
+    {
+      "name": "denoise",
+      "type": "float",
+      "range": [
+        0.1,
+        1.0
+      ],
+      "default": 0.92,
+      "desc": "重绘幅度"
+    },
+    {
+      "name": "steps",
+      "type": "int",
+      "range": [
+        8,
+        80
+      ],
+      "default": 32,
+      "desc": "采样步数"
+    },
+    {
+      "name": "cfg",
+      "type": "float",
+      "range": [
+        1.0,
+        12.0
+      ],
+      "default": 1.0,
+      "desc": "提示词遵循强度"
+    }
+  ],
+  "api_graph": "workflows/We1b47ae3a2/workflow_api.json",
+  "sha256": "a6f731c14a373a781aeace7c9f573782f78d474ff2b6cafa408710dde4c20473",
+  "notes": "输出：人物外观改变后的图像。；模型配置：flux.1-dev"
+}

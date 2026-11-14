@@ -1,0 +1,35 @@
+{
+  "id": "Wd37a6eab8c",
+  "name": "根据描述改变图像中指定物体的表面材质。",
+  "modality": "image",
+  "task_family": "Style_Editing",
+  "operation": "Style_Editing/material_transformation",
+  "kind": "base",
+  "summary": "根据描述改变图像中指定物体的表面材质。（输入：图像、目标物体和材质描述。）",
+  "inputs": [
+    {
+      "slot": "image",
+      "type": "image",
+      "required": true,
+      "desc": "原始图像"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "image",
+      "desc": "生成的图像"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    }
+  ],
+  "api_graph": "workflows/Wd37a6eab8c/workflow_api.json",
+  "sha256": "64041aad89cc1b984b90b43c4beadd907e866a3fa35cfa23e764e9fbab651cdf",
+  "notes": "输出：材质改变后的图像。；模型配置：flux2-klein-4b"
+}

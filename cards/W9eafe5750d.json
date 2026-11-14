@@ -1,0 +1,35 @@
+{
+  "id": "W9eafe5750d",
+  "name": "定位图像中的目标，并生成覆盖目标的矩形或圆形编辑",
+  "modality": "image",
+  "task_family": "Mask_Processing",
+  "operation": "Mask_Processing/generation",
+  "kind": "existing_template",
+  "summary": "定位图像中的目标，并生成覆盖目标的矩形或圆形编辑蒙版。（输入：图像、目标描述、蒙版形状。）",
+  "inputs": [
+    {
+      "slot": "image",
+      "type": "image",
+      "required": true,
+      "desc": "原始图像"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "image",
+      "desc": "生成的图像"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    }
+  ],
+  "api_graph": "workflows/W9eafe5750d/workflow_api.json",
+  "sha256": "9b64726b8dc5366adef5b71b27267a2a434689a1e6e315db9da1636969d96b22",
+  "notes": "输出：几何区域蒙版图像。；模型配置：groundingdino-sam"
+}

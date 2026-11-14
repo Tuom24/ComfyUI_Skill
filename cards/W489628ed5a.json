@@ -1,0 +1,35 @@
+{
+  "id": "W489628ed5a",
+  "name": "生成一张静态新背景，并与原视频逐帧保留的主体合成",
+  "modality": "video",
+  "task_family": "Background_Editing",
+  "operation": "Background_Editing/replacement",
+  "kind": "base",
+  "summary": "生成一张静态新背景，并与原视频逐帧保留的主体合成。（输入：视频、对齐的逐帧主体保留蒙版视频（主体白、背景黑）、新背景描述。）",
+  "inputs": [
+    {
+      "slot": "video",
+      "type": "video",
+      "required": true,
+      "desc": "输入视频"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "video",
+      "desc": "生成的视频"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    }
+  ],
+  "api_graph": "workflows/W489628ed5a/workflow_api.json",
+  "sha256": "8b1bbd6747719abe8261e55aad89a1021c0395553309021267bcc1a4ec85afd3",
+  "notes": "输出：保持原帧数和帧率的无声背景替换视频及辅助背景蒙版帧。；模型配置：flux2-klein-4b-static"
+}

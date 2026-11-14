@@ -1,0 +1,35 @@
+{
+  "id": "W6b1f567da2",
+  "name": "逐帧使用图像修复与超分辨率模型增强视频画质。",
+  "modality": "video",
+  "task_family": "Enhancement",
+  "operation": "Enhancement/quality_restoration",
+  "kind": "base",
+  "summary": "逐帧使用图像修复与超分辨率模型增强视频画质。（输入：视频。）",
+  "inputs": [
+    {
+      "slot": "video",
+      "type": "video",
+      "required": true,
+      "desc": "输入视频"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "video",
+      "desc": "生成的视频"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    }
+  ],
+  "api_graph": "workflows/W6b1f567da2/workflow_api.json",
+  "sha256": "9bfdc2e0fada0024fd3404b7e0e68f8d9a2752aa47e6aa9eb7465afa4c7829ea",
+  "notes": "输出：画质增强后的视频。；模型配置：BSRGAN"
+}

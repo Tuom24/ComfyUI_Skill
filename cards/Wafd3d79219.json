@@ -1,0 +1,35 @@
+{
+  "id": "Wafd3d79219",
+  "name": "根据文字定位图像中的对象或区域，并生成其轮廓蒙版",
+  "modality": "image",
+  "task_family": "Mask_Processing",
+  "operation": "Mask_Processing/generation",
+  "kind": "base",
+  "summary": "根据文字定位图像中的对象或区域，并生成其轮廓蒙版。（输入：图像、目标对象或区域描述。）",
+  "inputs": [
+    {
+      "slot": "image",
+      "type": "image",
+      "required": true,
+      "desc": "原始图像"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "image",
+      "desc": "生成的图像"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    }
+  ],
+  "api_graph": "workflows/Wafd3d79219/workflow_api.json",
+  "sha256": "792683f9a48b56058eccc3ae8dcdeb83b30ddecc3f1970b746f802f1c0394f4c",
+  "notes": "输出：蒙版图像。；模型配置：groundingdino-sam"
+}

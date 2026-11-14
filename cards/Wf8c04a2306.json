@@ -1,0 +1,65 @@
+{
+  "id": "Wf8c04a2306",
+  "name": "根据描述重绘视频中蒙版选中的区域，改变物体表面材",
+  "modality": "video",
+  "task_family": "Style_Editing",
+  "operation": "Style_Editing/material_transformation",
+  "kind": "base",
+  "summary": "根据描述重绘视频中蒙版选中的区域，改变物体表面材质。（输入：视频、逐帧物体蒙版视频、目标材质描述。）",
+  "inputs": [
+    {
+      "slot": "video",
+      "type": "video",
+      "required": true,
+      "desc": "输入视频"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "video",
+      "desc": "生成的视频"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    },
+    {
+      "name": "denoise",
+      "type": "float",
+      "range": [
+        0.1,
+        1.0
+      ],
+      "default": 1,
+      "desc": "重绘幅度"
+    },
+    {
+      "name": "steps",
+      "type": "int",
+      "range": [
+        8,
+        80
+      ],
+      "default": 20,
+      "desc": "采样步数"
+    },
+    {
+      "name": "cfg",
+      "type": "float",
+      "range": [
+        1.0,
+        12.0
+      ],
+      "default": 6,
+      "desc": "提示词遵循强度"
+    }
+  ],
+  "api_graph": "workflows/Wf8c04a2306/workflow_api.json",
+  "sha256": "1c98f963649babe9561d3699e539e7ea22448269a3748d88ce765ade731e513c",
+  "notes": "输出：材质改变后的视频。；模型配置：wan2.1-vace-14b-fp16"
+}

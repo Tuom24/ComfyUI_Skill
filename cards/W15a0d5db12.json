@@ -1,0 +1,65 @@
+{
+  "id": "W15a0d5db12",
+  "name": "提取参考图像的视觉风格，生成指定内容的新图像。",
+  "modality": "image",
+  "task_family": "Style_Editing",
+  "operation": "Style_Editing/style_cloning",
+  "kind": "base",
+  "summary": "提取参考图像的视觉风格，生成指定内容的新图像。（输入：风格参考图像、目标内容描述。）",
+  "inputs": [
+    {
+      "slot": "image",
+      "type": "image",
+      "required": true,
+      "desc": "原始图像"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "image",
+      "desc": "生成的图像"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    },
+    {
+      "name": "denoise",
+      "type": "float",
+      "range": [
+        0.1,
+        1.0
+      ],
+      "default": 1.0,
+      "desc": "重绘幅度"
+    },
+    {
+      "name": "steps",
+      "type": "int",
+      "range": [
+        8,
+        80
+      ],
+      "default": 26,
+      "desc": "采样步数"
+    },
+    {
+      "name": "cfg",
+      "type": "float",
+      "range": [
+        1.0,
+        12.0
+      ],
+      "default": 8,
+      "desc": "提示词遵循强度"
+    }
+  ],
+  "api_graph": "workflows/W15a0d5db12/workflow_api.json",
+  "sha256": "8b7bf968fddfe8a74ec90f215c112ee261c003b5e458cf7e42d875a8fb2eea63",
+  "notes": "输出：采用参考风格的新图像。；模型配置：sd_xl_base_1.0.safetensors"
+}

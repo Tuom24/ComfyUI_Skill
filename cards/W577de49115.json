@@ -1,0 +1,28 @@
+{
+  "id": "W577de49115",
+  "name": "根据描述生成以指定文字和字体外观为主要内容的图像",
+  "modality": "image",
+  "task_family": "Generation",
+  "operation": "Generation/text_rendering",
+  "kind": "base",
+  "summary": "根据描述生成以指定文字和字体外观为主要内容的图像。（输入：文字内容、字体外观和画面描述。）",
+  "inputs": [],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "image",
+      "desc": "生成的图像"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    }
+  ],
+  "api_graph": "workflows/W577de49115/workflow_api.json",
+  "sha256": "1ba3596b3edc363108fddd0e86a3ec59a993877f9cdc5437a5c1d14810f03b26",
+  "notes": "输出：文字视觉图像。；模型配置：flux2-klein-4b"
+}

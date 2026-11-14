@@ -1,0 +1,35 @@
+{
+  "id": "W7dfacfabd7",
+  "name": "根据描述生成目标人物图像，再用输入视频驱动其表情",
+  "modality": "video",
+  "task_family": "Motion_Cloning",
+  "operation": "Motion_Cloning/speaking",
+  "kind": "base",
+  "summary": "根据描述生成目标人物图像，再用输入视频驱动其表情和头部动作。（输入：说话视频、目标人物外观描述。）",
+  "inputs": [
+    {
+      "slot": "video",
+      "type": "video",
+      "required": true,
+      "desc": "输入视频"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "video",
+      "desc": "生成的视频"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    }
+  ],
+  "api_graph": "workflows/W7dfacfabd7/workflow_api.json",
+  "sha256": "8714937a26ccf544c58480d31c1e1d90a2ee9ad41cd6a27bc4f5ca282de4e897",
+  "notes": "输出：目标人物的说话动画视频。；模型配置：HelloMeme"
+}

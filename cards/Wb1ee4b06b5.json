@@ -1,0 +1,71 @@
+{
+  "id": "Wb1ee4b06b5",
+  "name": "修复蒙版选中的接缝区域，并将结果与原图合成。",
+  "modality": "image",
+  "task_family": "Restoration",
+  "operation": "Restoration/seam_refinement",
+  "kind": "base",
+  "summary": "修复蒙版选中的接缝区域，并将结果与原图合成。（输入：图像、接缝区域蒙版、修补内容描述。）",
+  "inputs": [
+    {
+      "slot": "image",
+      "type": "image",
+      "required": true,
+      "desc": "原始图像"
+    },
+    {
+      "slot": "mask",
+      "type": "mask",
+      "required": false,
+      "desc": "目标区域蒙版（替换/编辑区为白色）"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "image",
+      "desc": "生成的图像"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    },
+    {
+      "name": "denoise",
+      "type": "float",
+      "range": [
+        0.1,
+        1.0
+      ],
+      "default": 0.45,
+      "desc": "重绘幅度"
+    },
+    {
+      "name": "steps",
+      "type": "int",
+      "range": [
+        8,
+        80
+      ],
+      "default": 25,
+      "desc": "采样步数"
+    },
+    {
+      "name": "cfg",
+      "type": "float",
+      "range": [
+        1.0,
+        12.0
+      ],
+      "default": 5.5,
+      "desc": "提示词遵循强度"
+    }
+  ],
+  "api_graph": "workflows/Wb1ee4b06b5/workflow_api.json",
+  "sha256": "081330ce91e319c5c4e6d6dcb704faa44af652bff211462e7c5f1b2acff2db86",
+  "notes": "输出：接缝修复后的图像。；模型配置：flux1-fill-dev"
+}

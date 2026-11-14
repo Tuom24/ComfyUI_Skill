@@ -1,0 +1,35 @@
+{
+  "id": "W52359e2085",
+  "name": "按顺序拼接两个视频片段已加载的画面。",
+  "modality": "video",
+  "task_family": "Video_Editing",
+  "operation": "Video_Editing/shot_composition",
+  "kind": "base",
+  "summary": "按顺序拼接两个视频片段已加载的画面。（输入：两个视频片段、加载范围和共同帧率，默认每路加载至多 24 帧。）",
+  "inputs": [
+    {
+      "slot": "video",
+      "type": "video",
+      "required": true,
+      "desc": "输入视频"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "video",
+      "desc": "生成的视频"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    }
+  ],
+  "api_graph": "workflows/W52359e2085/workflow_api.json",
+  "sha256": "8ff8b5c56707deb28091154d695a15f7b421235ec0101ce2c72db3430512c123",
+  "notes": "输出：顺序拼接的无声视频，帧数为两路之和，默认 16 帧/秒、832×480。；模型配置：utility"
+}

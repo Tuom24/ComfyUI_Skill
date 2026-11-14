@@ -1,0 +1,65 @@
+{
+  "id": "Wa5ccc1b19e",
+  "name": "逐帧重绘蒙版选中的物体区域，补全移除后的背景。",
+  "modality": "video",
+  "task_family": "Object_Editing",
+  "operation": "Object_Editing/removal",
+  "kind": "base",
+  "summary": "逐帧重绘蒙版选中的物体区域，补全移除后的背景。（输入：视频、逐帧物体蒙版视频、移除与背景描述。）",
+  "inputs": [
+    {
+      "slot": "video",
+      "type": "video",
+      "required": true,
+      "desc": "输入视频"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "video",
+      "desc": "生成的视频"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    },
+    {
+      "name": "denoise",
+      "type": "float",
+      "range": [
+        0.1,
+        1.0
+      ],
+      "default": 0.72,
+      "desc": "重绘幅度"
+    },
+    {
+      "name": "steps",
+      "type": "int",
+      "range": [
+        8,
+        80
+      ],
+      "default": 28,
+      "desc": "采样步数"
+    },
+    {
+      "name": "cfg",
+      "type": "float",
+      "range": [
+        1.0,
+        12.0
+      ],
+      "default": 5.5,
+      "desc": "提示词遵循强度"
+    }
+  ],
+  "api_graph": "workflows/Wa5ccc1b19e/workflow_api.json",
+  "sha256": "7f700ce4e8bdb2b8b3bc3a899cda0c7d4716a95a93dfada706234d764078861c",
+  "notes": "输出：物体移除后的视频。；模型配置：animatediff-sdxl"
+}

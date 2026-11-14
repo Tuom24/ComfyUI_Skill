@@ -1,0 +1,35 @@
+{
+  "id": "Wd9c9253834",
+  "name": "逐帧放大视频画面并增强细节，再合成为视频。",
+  "modality": "video",
+  "task_family": "Enhancement",
+  "operation": "Enhancement/upscaling",
+  "kind": "base",
+  "summary": "逐帧放大视频画面并增强细节，再合成为视频。（输入：视频。）",
+  "inputs": [
+    {
+      "slot": "video",
+      "type": "video",
+      "required": true,
+      "desc": "输入视频"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "video",
+      "desc": "生成的视频"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    }
+  ],
+  "api_graph": "workflows/Wd9c9253834/workflow_api.json",
+  "sha256": "952a7a3ec9fc7baf2471708df997567c9e575fcee41449e7a9b4a0c506165579",
+  "notes": "输出：分辨率放大后的视频。；模型配置：Real-ESRGAN-Video"
+}

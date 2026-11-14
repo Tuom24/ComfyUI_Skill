@@ -1,0 +1,35 @@
+{
+  "id": "W3596d4d91b",
+  "name": "将输入照片转换为卡通或手绘动画风格。",
+  "modality": "image",
+  "task_family": "Style_Editing",
+  "operation": "Style_Editing/cartoonization",
+  "kind": "base",
+  "summary": "将输入照片转换为卡通或手绘动画风格。（输入：图像、目标卡通风格描述。）",
+  "inputs": [
+    {
+      "slot": "image",
+      "type": "image",
+      "required": true,
+      "desc": "原始图像"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "image",
+      "desc": "生成的图像"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    }
+  ],
+  "api_graph": "workflows/W3596d4d91b/workflow_api.json",
+  "sha256": "07d049028c717d739ebdf274d81d23e982002b8b98be1e77096d0a9aa7dafbfc",
+  "notes": "输出：卡通风格图像。；模型配置：flux2-klein-4b"
+}

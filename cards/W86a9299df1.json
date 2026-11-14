@@ -1,0 +1,41 @@
+{
+  "id": "W86a9299df1",
+  "name": "用输入视频的表情和头部动作驱动目标人物参考图像。",
+  "modality": "video",
+  "task_family": "Motion_Cloning",
+  "operation": "Motion_Cloning/speaking",
+  "kind": "existing_template",
+  "summary": "用输入视频的表情和头部动作驱动目标人物参考图像。（输入：说话视频、目标人物参考图像、动画描述。）",
+  "inputs": [
+    {
+      "slot": "image",
+      "type": "image",
+      "required": true,
+      "desc": "原始图像"
+    },
+    {
+      "slot": "video",
+      "type": "video",
+      "required": true,
+      "desc": "输入视频"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "video",
+      "desc": "生成的视频"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    }
+  ],
+  "api_graph": "workflows/W86a9299df1/workflow_api.json",
+  "sha256": "9be3229dbfce081cec7b88289834f395da4f05e1223435b493969c246b4efe50",
+  "notes": "输出：参考人物的说话动画视频。；模型配置：HelloMeme"
+}

@@ -1,0 +1,71 @@
+{
+  "id": "Wfd54006f45",
+  "name": "保留蒙版白区中的原图主体，重绘黑区背景，并将两者",
+  "modality": "image",
+  "task_family": "Background_Editing",
+  "operation": "Background_Editing/replacement",
+  "kind": "historical_base_template",
+  "summary": "保留蒙版白区中的原图主体，重绘黑区背景，并将两者合成。（输入：图像、主体保留蒙版（主体白、背景黑）、新背景描述。）",
+  "inputs": [
+    {
+      "slot": "image",
+      "type": "image",
+      "required": true,
+      "desc": "原始图像"
+    },
+    {
+      "slot": "mask",
+      "type": "mask",
+      "required": false,
+      "desc": "目标区域蒙版（替换/编辑区为白色）"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "image",
+      "desc": "生成的图像"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    },
+    {
+      "name": "denoise",
+      "type": "float",
+      "range": [
+        0.1,
+        1.0
+      ],
+      "default": 1,
+      "desc": "重绘幅度"
+    },
+    {
+      "name": "steps",
+      "type": "int",
+      "range": [
+        8,
+        80
+      ],
+      "default": 20,
+      "desc": "采样步数"
+    },
+    {
+      "name": "cfg",
+      "type": "float",
+      "range": [
+        1.0,
+        12.0
+      ],
+      "default": 1,
+      "desc": "提示词遵循强度"
+    }
+  ],
+  "api_graph": "workflows/Wfd54006f45/workflow_api.json",
+  "sha256": "4e778fbd51f7f6612b0a3c1d5c5c630036d8f6c02d2b845a17805362ec0e637d",
+  "notes": "输出：背景替换后的合成图像。；模型配置：flux1-fill-dev.safetensors"
+}

@@ -1,0 +1,35 @@
+{
+  "id": "Wbfb82ac514",
+  "name": "根据目标身份描述生成参考人脸，再替换视频中的人脸",
+  "modality": "video",
+  "task_family": "Identity_Editing",
+  "operation": "Identity_Editing/face_swap",
+  "kind": "base",
+  "summary": "根据目标身份描述生成参考人脸，再替换视频中的人脸。（输入：视频、目标人物身份描述。）",
+  "inputs": [
+    {
+      "slot": "video",
+      "type": "video",
+      "required": true,
+      "desc": "输入视频"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "video",
+      "desc": "生成的视频"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    }
+  ],
+  "api_graph": "workflows/Wbfb82ac514/workflow_api.json",
+  "sha256": "203ec18973a8c976c064689d2aee7388775ea5d05827599296f0db731781e85b",
+  "notes": "输出：人脸替换后的视频。；模型配置：animatediff-sdxl"
+}

@@ -1,0 +1,65 @@
+{
+  "id": "W6fc9f61be5",
+  "name": "将人物照片转换为指定风格的肖像，保留人物身份特征",
+  "modality": "image",
+  "task_family": "Face_Editing",
+  "operation": "Face_Editing/portrait_conversion",
+  "kind": "base",
+  "summary": "将人物照片转换为指定风格的肖像，保留人物身份特征。（输入：人物图像、肖像风格描述。）",
+  "inputs": [
+    {
+      "slot": "image",
+      "type": "image",
+      "required": true,
+      "desc": "原始图像"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "image",
+      "desc": "生成的图像"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    },
+    {
+      "name": "denoise",
+      "type": "float",
+      "range": [
+        0.1,
+        1.0
+      ],
+      "default": 0.55,
+      "desc": "重绘幅度"
+    },
+    {
+      "name": "steps",
+      "type": "int",
+      "range": [
+        8,
+        80
+      ],
+      "default": 20,
+      "desc": "采样步数"
+    },
+    {
+      "name": "cfg",
+      "type": "float",
+      "range": [
+        1.0,
+        12.0
+      ],
+      "default": 1.0,
+      "desc": "提示词遵循强度"
+    }
+  ],
+  "api_graph": "workflows/W6fc9f61be5/workflow_api.json",
+  "sha256": "17e3a8967a05709c86cc49d082a8e2996422065acdfc04dd5b478e96c8c1181b",
+  "notes": "输出：转换后的肖像图像。；模型配置：flux.1-dev"
+}

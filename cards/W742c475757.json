@@ -1,0 +1,48 @@
+{
+  "id": "W742c475757",
+  "name": "根据房间和布局描述生成俯视室内平面图。",
+  "modality": "image",
+  "task_family": "Creative_Design",
+  "operation": "Creative_Design/interior_plan",
+  "kind": "base",
+  "summary": "根据房间和布局描述生成俯视室内平面图。（输入：房间组成和室内布局描述。）",
+  "inputs": [],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "image",
+      "desc": "生成的图像"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    },
+    {
+      "name": "steps",
+      "type": "int",
+      "range": [
+        8,
+        80
+      ],
+      "default": 30,
+      "desc": "采样步数"
+    },
+    {
+      "name": "cfg",
+      "type": "float",
+      "range": [
+        1.0,
+        12.0
+      ],
+      "default": 7,
+      "desc": "提示词遵循强度"
+    }
+  ],
+  "api_graph": "workflows/W742c475757/workflow_api.json",
+  "sha256": "abbd995e6ceeba7c7ac8c20133c5fbdbb25ef39e49a8b5ffee010cfe3f383c64",
+  "notes": "输出：室内平面图图像。；模型配置：sdxl-1.0"
+}

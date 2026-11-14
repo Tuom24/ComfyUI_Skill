@@ -1,0 +1,35 @@
+{
+  "id": "We5f4158af3",
+  "name": "根据文字定位并跟踪视频中的对象，生成逐帧区域蒙版",
+  "modality": "video",
+  "task_family": "Mask_Processing",
+  "operation": "Mask_Processing/generation",
+  "kind": "base",
+  "summary": "根据文字定位并跟踪视频中的对象，生成逐帧区域蒙版。（输入：视频、目标对象或区域描述。）",
+  "inputs": [
+    {
+      "slot": "video",
+      "type": "video",
+      "required": true,
+      "desc": "输入视频"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "video",
+      "desc": "生成的视频"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    }
+  ],
+  "api_graph": "workflows/We5f4158af3/workflow_api.json",
+  "sha256": "667bbe52e5a3e90bc0ea335410c16006532c0b07e2f75e2e516ce992aa696964",
+  "notes": "输出：蒙版视频。；模型配置：groundingdino-sam"
+}

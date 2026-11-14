@@ -1,0 +1,65 @@
+{
+  "id": "W249e6be83b",
+  "name": "根据描述改变图像的光照、光色与明暗氛围。",
+  "modality": "image",
+  "task_family": "Lighting_Editing",
+  "operation": "Lighting_Editing/modification",
+  "kind": "base",
+  "summary": "根据描述改变图像的光照、光色与明暗氛围。（输入：图像、目标光照描述。）",
+  "inputs": [
+    {
+      "slot": "image",
+      "type": "image",
+      "required": true,
+      "desc": "原始图像"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "image",
+      "desc": "生成的图像"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    },
+    {
+      "name": "denoise",
+      "type": "float",
+      "range": [
+        0.1,
+        1.0
+      ],
+      "default": 1.0,
+      "desc": "重绘幅度"
+    },
+    {
+      "name": "steps",
+      "type": "int",
+      "range": [
+        8,
+        80
+      ],
+      "default": 4,
+      "desc": "采样步数"
+    },
+    {
+      "name": "cfg",
+      "type": "float",
+      "range": [
+        1.0,
+        12.0
+      ],
+      "default": 1.0,
+      "desc": "提示词遵循强度"
+    }
+  ],
+  "api_graph": "workflows/W249e6be83b/workflow_api.json",
+  "sha256": "f70ba69c343a15966b1ce30e5f1810716ac63a51d196ed2073cd0075dab96032",
+  "notes": "输出：重新照明后的图像。；模型配置：qwen-image-edit-2509-relight"
+}

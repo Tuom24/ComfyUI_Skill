@@ -1,0 +1,65 @@
+{
+  "id": "We9ebcd7c4b",
+  "name": "根据输入图像和运动描述生成动画视频。",
+  "modality": "video",
+  "task_family": "Generation",
+  "operation": "Generation/image_to_video",
+  "kind": "base",
+  "summary": "根据输入图像和运动描述生成动画视频。（输入：图像、主体运动描述。）",
+  "inputs": [
+    {
+      "slot": "image",
+      "type": "image",
+      "required": true,
+      "desc": "原始图像"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "video",
+      "desc": "生成的视频"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    },
+    {
+      "name": "denoise",
+      "type": "float",
+      "range": [
+        0.1,
+        1.0
+      ],
+      "default": 1.0,
+      "desc": "重绘幅度"
+    },
+    {
+      "name": "steps",
+      "type": "int",
+      "range": [
+        8,
+        80
+      ],
+      "default": 20,
+      "desc": "采样步数"
+    },
+    {
+      "name": "cfg",
+      "type": "float",
+      "range": [
+        1.0,
+        12.0
+      ],
+      "default": 5.0,
+      "desc": "提示词遵循强度"
+    }
+  ],
+  "api_graph": "workflows/We9ebcd7c4b/workflow_api.json",
+  "sha256": "de88283c56188aa5d84491f8456973673726be6e7cabc5b44fa22cc17b8ec3c2",
+  "notes": "输出：生成的视频。；模型配置：wan2.2-ti2v-5b"
+}

@@ -1,0 +1,35 @@
+{
+  "id": "W005f87da30",
+  "name": "对视频画面施加指定颜色，并通过逐帧蒙版合成局部调",
+  "modality": "video",
+  "task_family": "Object_Editing",
+  "operation": "Object_Editing/color_modification",
+  "kind": "base",
+  "summary": "对视频画面施加指定颜色，并通过逐帧蒙版合成局部调色结果。（输入：视频、逐帧调色蒙版视频、目标颜色。）",
+  "inputs": [
+    {
+      "slot": "video",
+      "type": "video",
+      "required": true,
+      "desc": "输入视频"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "video",
+      "desc": "生成的视频"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    }
+  ],
+  "api_graph": "workflows/W005f87da30/workflow_api.json",
+  "sha256": "438a011e8b3759275a40d0035ecab47245f0745a3a65e1816e332f83c7ab2acc",
+  "notes": "输出：局部调色后的视频。；模型配置：utility"
+}

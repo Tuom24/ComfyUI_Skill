@@ -1,0 +1,58 @@
+{
+  "id": "We6301344d7",
+  "name": "先生成场景图像，再叠加指定文字水印。",
+  "modality": "image",
+  "task_family": "Creative_Design",
+  "operation": "Creative_Design/watermark_add",
+  "kind": "base",
+  "summary": "先生成场景图像，再叠加指定文字水印。（输入：场景描述、水印文字和排版信息。）",
+  "inputs": [],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "image",
+      "desc": "生成的图像"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    },
+    {
+      "name": "denoise",
+      "type": "float",
+      "range": [
+        0.1,
+        1.0
+      ],
+      "default": 1.0,
+      "desc": "重绘幅度"
+    },
+    {
+      "name": "steps",
+      "type": "int",
+      "range": [
+        8,
+        80
+      ],
+      "default": 28,
+      "desc": "采样步数"
+    },
+    {
+      "name": "cfg",
+      "type": "float",
+      "range": [
+        1.0,
+        12.0
+      ],
+      "default": 7.0,
+      "desc": "提示词遵循强度"
+    }
+  ],
+  "api_graph": "workflows/We6301344d7/workflow_api.json",
+  "sha256": "c22267c927acbb239e566d090f3f9ac256f5635b37dac8dc0cf301ae49de86d8",
+  "notes": "输出：带文字水印的生成图像。；模型配置：sd1.5-text-overlay"
+}

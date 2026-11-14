@@ -1,0 +1,35 @@
+{
+  "id": "W5d3c5ec12f",
+  "name": "用外部椭圆减去内部保护区，并合成连接区域蒙版。",
+  "modality": "image",
+  "task_family": "Mask_Processing",
+  "operation": "Mask_Processing/generation",
+  "kind": "existing_template",
+  "summary": "用外部椭圆减去内部保护区，并合成连接区域蒙版。（输入：图像、外部区域和保护区的位置尺寸、连接区域。）",
+  "inputs": [
+    {
+      "slot": "image",
+      "type": "image",
+      "required": true,
+      "desc": "原始图像"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "image",
+      "desc": "生成的图像"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    }
+  ],
+  "api_graph": "workflows/W5d3c5ec12f/workflow_api.json",
+  "sha256": "525043dca8de896a0277a458be6cd559501f7b27023b8b9ce415660545eaf1dc",
+  "notes": "输出：环形或弧形区域蒙版图像。；模型配置：groundingdino-sam"
+}

@@ -1,0 +1,55 @@
+{
+  "id": "Wc8b68ba1c8",
+  "name": "在指定起始图像和结束图像之间生成连续过渡视频。",
+  "modality": "video",
+  "task_family": "Generation",
+  "operation": "Generation/keyframe_interpolation",
+  "kind": "base",
+  "summary": "在指定起始图像和结束图像之间生成连续过渡视频。（输入：起始图像、结束图像、过渡过程描述。）",
+  "inputs": [
+    {
+      "slot": "image",
+      "type": "image",
+      "required": true,
+      "desc": "原始图像"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "video",
+      "desc": "生成的视频"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    },
+    {
+      "name": "steps",
+      "type": "int",
+      "range": [
+        8,
+        80
+      ],
+      "default": 20,
+      "desc": "采样步数"
+    },
+    {
+      "name": "cfg",
+      "type": "float",
+      "range": [
+        1.0,
+        12.0
+      ],
+      "default": 4.0,
+      "desc": "提示词遵循强度"
+    }
+  ],
+  "api_graph": "workflows/Wc8b68ba1c8/workflow_api.json",
+  "sha256": "4c90336118be1de345da58052a6fd25bef3d2266a2902862ec65a0c5469fa09e",
+  "notes": "输出：连接两个关键帧的视频。；模型配置：wan2.2-flf2v-14b-fp8"
+}

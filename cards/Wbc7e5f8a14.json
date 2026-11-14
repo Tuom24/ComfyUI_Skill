@@ -1,0 +1,65 @@
+{
+  "id": "Wbc7e5f8a14",
+  "name": "向图像四周扩展画布，并生成与原场景衔接的内容。",
+  "modality": "image",
+  "task_family": "Geometry_Editing",
+  "operation": "Geometry_Editing/extension",
+  "kind": "base",
+  "summary": "向图像四周扩展画布，并生成与原场景衔接的内容。（输入：图像、扩展方向和尺寸、补充场景描述。）",
+  "inputs": [
+    {
+      "slot": "image",
+      "type": "image",
+      "required": true,
+      "desc": "原始图像"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "image",
+      "desc": "生成的图像"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    },
+    {
+      "name": "denoise",
+      "type": "float",
+      "range": [
+        0.1,
+        1.0
+      ],
+      "default": 1,
+      "desc": "重绘幅度"
+    },
+    {
+      "name": "steps",
+      "type": "int",
+      "range": [
+        8,
+        80
+      ],
+      "default": 20,
+      "desc": "采样步数"
+    },
+    {
+      "name": "cfg",
+      "type": "float",
+      "range": [
+        1.0,
+        12.0
+      ],
+      "default": 1,
+      "desc": "提示词遵循强度"
+    }
+  ],
+  "api_graph": "workflows/Wbc7e5f8a14/workflow_api.json",
+  "sha256": "3a7418721ff5019b441e5ce5b748e0ececc3feccf4224dfed199177b18e08e5f",
+  "notes": "输出：扩展后的图像及辅助扩边区域蒙版。；模型配置：flux1-fill-dev"
+}

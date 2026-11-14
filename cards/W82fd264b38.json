@@ -1,0 +1,71 @@
+{
+  "id": "W82fd264b38",
+  "name": "提取参考视频的人体姿态，让参考图像中的主体复现舞",
+  "modality": "video",
+  "task_family": "Motion_Cloning",
+  "operation": "Motion_Cloning/dancing",
+  "kind": "base",
+  "summary": "提取参考视频的人体姿态，让参考图像中的主体复现舞蹈动作。（输入：动作参考视频、目标主体图像、动作描述。）",
+  "inputs": [
+    {
+      "slot": "image",
+      "type": "image",
+      "required": true,
+      "desc": "原始图像"
+    },
+    {
+      "slot": "video",
+      "type": "video",
+      "required": true,
+      "desc": "输入视频"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "video",
+      "desc": "生成的视频"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    },
+    {
+      "name": "denoise",
+      "type": "float",
+      "range": [
+        0.1,
+        1.0
+      ],
+      "default": 1.0,
+      "desc": "重绘幅度"
+    },
+    {
+      "name": "steps",
+      "type": "int",
+      "range": [
+        8,
+        80
+      ],
+      "default": 20,
+      "desc": "采样步数"
+    },
+    {
+      "name": "cfg",
+      "type": "float",
+      "range": [
+        1.0,
+        12.0
+      ],
+      "default": 5.0,
+      "desc": "提示词遵循强度"
+    }
+  ],
+  "api_graph": "workflows/W82fd264b38/workflow_api.json",
+  "sha256": "6fe249baed0cc1dbdae4bd44ffd0bdb9502bc5fec274d9c9809060e2d830f73a",
+  "notes": "输出：动作复现视频。；模型配置：wan2.2-fun-5b-control-gguf-q5"
+}

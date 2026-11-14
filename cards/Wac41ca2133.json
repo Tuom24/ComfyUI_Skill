@@ -1,0 +1,35 @@
+{
+  "id": "Wac41ca2133",
+  "name": "在图像画布的指定位置生成矩形区域蒙版。",
+  "modality": "image",
+  "task_family": "Mask_Processing",
+  "operation": "Mask_Processing/generation",
+  "kind": "existing_template",
+  "summary": "在图像画布的指定位置生成矩形区域蒙版。（输入：图像、区域位置和尺寸。）",
+  "inputs": [
+    {
+      "slot": "image",
+      "type": "image",
+      "required": true,
+      "desc": "原始图像"
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "image",
+      "desc": "生成的图像"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    }
+  ],
+  "api_graph": "workflows/Wac41ca2133/workflow_api.json",
+  "sha256": "831aa3db2323efcccbf14230da47ae4ae25fe65377ad27a357e92b78c7fec4f9",
+  "notes": "输出：矩形区域蒙版图像。；模型配置：groundingdino-sam"
+}

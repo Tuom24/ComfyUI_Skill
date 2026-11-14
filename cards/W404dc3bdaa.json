@@ -1,0 +1,58 @@
+{
+  "id": "W404dc3bdaa",
+  "name": "根据文本描述生成主体、场景和视觉风格。",
+  "modality": "image",
+  "task_family": "Generation",
+  "operation": "Generation/text_to_image",
+  "kind": "base",
+  "summary": "根据文本描述生成主体、场景和视觉风格。（输入：图像内容描述。）",
+  "inputs": [],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "image",
+      "desc": "生成的图像"
+    }
+  ],
+  "params": [
+    {
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "desc": "生成/编辑内容描述"
+    },
+    {
+      "name": "denoise",
+      "type": "float",
+      "range": [
+        0.1,
+        1.0
+      ],
+      "default": 1,
+      "desc": "重绘幅度"
+    },
+    {
+      "name": "steps",
+      "type": "int",
+      "range": [
+        8,
+        80
+      ],
+      "default": 8,
+      "desc": "采样步数"
+    },
+    {
+      "name": "cfg",
+      "type": "float",
+      "range": [
+        1.0,
+        12.0
+      ],
+      "default": 1,
+      "desc": "提示词遵循强度"
+    }
+  ],
+  "api_graph": "workflows/W404dc3bdaa/workflow_api.json",
+  "sha256": "39695ab815d11bd6289d2572e2732cb890d831c6b4d1d419ab72368a6fa2bd84",
+  "notes": "输出：生成的图像。；模型配置：z-image-turbo"
+}
