@@ -1,6 +1,6 @@
 # ComfyTree Agent Skill
 
-ComfyTree 将个人 ComfyUI 工作流登记为语义卡，由 Agent 根据用户需求生成方案，再由 Skill 校验、冻结和执行。仓库包含可独立安装的 `comfyflow-compose` 技能、可替换的 Agent 规划器协议、本机服务和 ComfyTree 前端。
+ComfyTree 将个人 ComfyUI 工作流登记为语义卡，由 Agent 根据用户需求生成方案，再由 Skill 校验、冻结和执行。仓库包含可独立安装的 `comfytree` 技能、可替换的 Agent 规划器协议、本机服务和 ComfyTree 前端。
 
 **目前是可验证原型，不是完整产品。** 已实测真实 Codex 规划、本机 ComfyUI 文生图、前端快速生成和工作台修改参数后复跑；已在本机验证图片复制的两阶段传递。其他 Agent 产品尚待独立端到端测试；66 张历史研究卡片还没有执行映射。具体见 [当前状态](STATUS.md)。
 
@@ -8,10 +8,10 @@ ComfyTree 将个人 ComfyUI 工作流登记为语义卡，由 Agent 根据用户
 
 需要 Python 3.9+、用户自己的 ComfyUI 服务及所需模型/自定义节点。将仓库完整目录复制到支持 Agent Skills 的客户端技能目录，例如：
 
-- Codex：`~/.codex/skills/comfyflow-compose/`
-- WorkBuddy：`~/.workbuddy/skills/comfyflow-compose/`
+- Codex：`~/.codex/skills/comfytree/`
+- WorkBuddy：`~/.workbuddy/skills/comfytree/`
 
-具体目录以客户端配置为准。重新加载技能或重启客户端后，可请求 Agent：“使用 comfyflow-compose 登记我的 ComfyUI API 工作流。”其他支持 Agent Skills 的客户端可以读取同一 `SKILL.md` 和脚本，不需要 Codex；实际发现与工具权限以各客户端为准。
+具体目录以客户端配置为准。重新加载技能或重启客户端后，可请求 Agent：“使用 ComfyTree 登记我的 ComfyUI API 工作流。”如果先前安装了 `comfyflow-compose`，请停用或移走旧版本，避免两个技能同时匹配。其他支持 Agent Skills 的客户端可以读取同一 `SKILL.md` 和脚本，不需要 Codex；实际发现与工具权限以各客户端为准。
 
 个人工作流、素材、密钥和产物保存在独立的用户目录，不放入技能目录或公开仓库。登记 API 图（普通 UI 格式需要先从 ComfyUI 导出为 API 格式）：
 
@@ -41,12 +41,12 @@ npm run dev
 例如 Windows PowerShell 中，把 `$skill` 改成仓库实际路径，先启动本机 ComfyUI（默认 8188），再分别在两个终端运行：
 
 ```powershell
-$skill = 'C:\path\to\comfyflow-compose'
+$skill = 'C:\path\to\comfytree'
 python "$skill\scripts\agent_service.py" --library "$skill\examples\text-to-image\library" --state "$env:USERPROFILE\ComfyTree-state" --comfy-url http://127.0.0.1:8188
 ```
 
 ```powershell
-$skill = 'C:\path\to\comfyflow-compose'
+$skill = 'C:\path\to\comfytree'
 Set-Location "$skill\web"
 npm ci
 npm run dev

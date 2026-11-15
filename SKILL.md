@@ -1,5 +1,5 @@
 ---
-name: comfyflow-compose
+name: comfytree
 description: 使用 ComfyTree 管理个人 ComfyUI 工作流、匹配和组合生成任务、校验并执行已核验的图像工作流，或启动用户指定的 ComfyTree 前端。适用于登记工作流、自然语言驱动 ComfyUI 和多阶段素材传递。
 ---
 
