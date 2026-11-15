@@ -1,0 +1,8 @@
+{
+  "task": "检查 ComfyUI 图像上传、执行与下载接口",
+  "materials": {"photo": {"type": "image", "path": "input.png"}},
+  "stages": [
+    {"stage": 1, "workflow": "image-copy", "bindings": {"image": "material:photo"}, "params": {}, "outputs_to": {}}
+  ],
+  "final_output": "stage1.result"
+}

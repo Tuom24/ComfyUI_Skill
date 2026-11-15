@@ -1,0 +1,24 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["kind", "message", "stages", "final_output"],
+  "properties": {
+    "kind": {"type": "string", "enum": ["plan", "clarification"]},
+    "message": {"type": "string"},
+    "stages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["stage", "workflow", "bindings", "params"],
+        "properties": {
+          "stage": {"type": "integer"},
+          "workflow": {"type": "string"},
+          "bindings": {"type":"array", "items":{"type":"object","additionalProperties":false,"required":["slot","source"],"properties":{"slot":{"type":"string"},"source":{"type":"string"}}}},
+          "params": {"type":"array", "items":{"type":"object","additionalProperties":false,"required":["name","value_json"],"properties":{"name":{"type":"string"},"value_json":{"type":"string"}}}}
+        }
+      }
+    },
+    "final_output": {"type": "string"}
+  }
+}

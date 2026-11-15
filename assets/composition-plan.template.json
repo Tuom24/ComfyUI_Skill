@@ -1,29 +1,9 @@
 {
-  "task": "把女子照片的背景换成大厅，再将结果生成一段视频",
-  "materials": {
-    "photo": "user/photo.jpg"
-  },
+  "task": "编辑图像，然后再次处理结果",
+  "materials": {"photo": {"type": "image", "path": "photo.png"}},
   "stages": [
-    {
-      "stage": 1,
-      "workflow": "bg-replace-v1",
-      "bindings": {
-        "image": "material:photo",
-        "prompt": "宽敞明亮的大厅，自然光"
-      },
-      "params": { "denoise": 0.75 },
-      "outputs_to": { "result": "stage1.bg" }
-    },
-    {
-      "stage": 2,
-      "workflow": "image-to-video-v1",
-      "bindings": {
-        "image": "stage1.bg",
-        "prompt": "镜头缓慢推进，光影自然流动"
-      },
-      "params": { "duration": 4 },
-      "outputs_to": { "result": "final" }
-    }
+    {"stage": 1, "workflow": "example-edit", "bindings": {"image": "material:photo", "prompt": "调整画面"}, "params": {}, "outputs_to": {}},
+    {"stage": 2, "workflow": "example-edit", "bindings": {"image": "stage1.result", "prompt": "继续调整"}, "params": {}, "outputs_to": {}}
   ],
-  "final_output": "final"
+  "final_output": "stage2.result"
 }

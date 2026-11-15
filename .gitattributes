@@ -1,0 +1,3 @@
+# API graph hashes are calculated over the exact LF bytes committed to Git.
+workflows/** text eol=lf
+examples/**/workflows/** text eol=lf

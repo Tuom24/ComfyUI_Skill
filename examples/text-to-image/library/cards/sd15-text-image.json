@@ -1,0 +1,87 @@
+{
+  "id": "sd15-text-image",
+  "name": "SD 1.5 文生图（测试）",
+  "modality": "text",
+  "task_family": "text-to-image",
+  "summary": "用 SD 1.5 将英文提示词生成一张 512×512 图像。",
+  "inputs": [
+    {
+      "slot": "prompt",
+      "type": "text",
+      "required": true
+    },
+    {
+      "slot": "negative",
+      "type": "text",
+      "required": true
+    }
+  ],
+  "outputs": [
+    {
+      "slot": "result",
+      "type": "image"
+    }
+  ],
+  "params": [
+    {
+      "name": "seed",
+      "type": "int",
+      "range": [
+        0,
+        9007199254740991
+      ],
+      "default": 42
+    },
+    {
+      "name": "steps",
+      "type": "int",
+      "range": [
+        1,
+        50
+      ],
+      "default": 20
+    },
+    {
+      "name": "cfg",
+      "type": "float",
+      "range": [
+        1,
+        20
+      ],
+      "default": 7
+    }
+  ],
+  "api_graph": "workflows/sd15-text-image.json",
+  "sha256": "0bbf2ef4e383428816200aef618aa4cbc0e55a786d107cc3512b8833a0079c81",
+  "execution": {
+    "verified": true,
+    "inputs": {
+      "prompt": {
+        "node": "2",
+        "field": "text"
+      },
+      "negative": {
+        "node": "3",
+        "field": "text"
+      }
+    },
+    "params": {
+      "seed": {
+        "node": "5",
+        "field": "seed"
+      },
+      "steps": {
+        "node": "5",
+        "field": "steps"
+      },
+      "cfg": {
+        "node": "5",
+        "field": "cfg"
+      }
+    },
+    "outputs": {
+      "result": "7"
+    }
+  },
+  "notes": "固定单张 512×512；需要指定 SD 1.5 模型。仅用于真实生图联调。"
+}

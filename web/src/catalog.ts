@@ -1,0 +1,9 @@
+import { liveMode, recordingMode } from './liveApi';
+export interface ParameterSlot { key: string; nodeId: string; name: string; value: string | number | boolean; type: string; nodeType: string; min?: number; max?: number; integer?: boolean; options?: (string | number | boolean)[] }
+export interface WorkflowDefinition { id: string; description: string; modality: string; operation: string; sha256: string; nodeCount: number; parameters: ParameterSlot[] }
+let cache: WorkflowDefinition[] | undefined;
+export async function loadCatalog() { if (cache) return cache; const response = await fetch(liveMode&&!recordingMode?'/api/catalog':'/library/catalog.json'); if (!response.ok) throw new Error('工作流目录无法读取，请检查 Agent 服务和个人工作流库。'); cache = await response.json() as WorkflowDefinition[]; return cache; }
+export async function loadGraph(id: string): Promise<Record<string, { class_type: string; inputs: Record<string, unknown> }>> { if (!/^[A-Za-z0-9][A-Za-z0-9_-]{0,99}$/.test(id)) throw new Error('无效工作流 ID'); const response = await fetch(liveMode&&!recordingMode?`/api/workflows/${encodeURIComponent(id)}`:`/library/${encodeURIComponent(id)}.json`); if (!response.ok) throw new Error('无法读取工作流定义'); return response.json(); }
+export const MODALITIES: Record<string,string> = { t2i: '文生图', i2i: '图像编辑', i2v: '图生视频', t2v: '文生视频', v2v: '视频编辑' };
+export const PARAMETER_NAMES: Record<string,string> = { text: '文本提示词', prompt: '提示词', seed: '随机种子', noise_seed: '噪声种子', steps: '采样步数', cfg: '提示词引导', guidance: '引导强度', denoise: '重绘强度', width: '宽度', height: '高度', length: '帧数', num_frames: '帧数', frame_rate: '帧率', fps: '帧率', batch_size: '批次数量', value: '数值', sampler_name: '采样器', scheduler: '调度器' };
+export function workflowTitle(row: WorkflowDefinition) { return row.description.split('\n').find(Boolean)?.replace(/^功能[：:]/, '').replace(/[。.]$/, '') ?? row.id; }
