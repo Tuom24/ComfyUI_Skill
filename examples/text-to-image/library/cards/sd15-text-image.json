@@ -1,6 +1,6 @@
 {
   "id": "sd15-text-image",
-  "name": "SD 1.5 文生图（测试）",
+  "name": "SD 1.5 文生图",
   "modality": "text",
   "task_family": "text-to-image",
   "summary": "用 SD 1.5 将英文提示词生成一张 512×512 图像。",
@@ -83,5 +83,5 @@
       "result": "7"
     }
   },
-  "notes": "固定单张 512×512；需要指定 SD 1.5 模型。仅用于真实生图联调。"
+  "notes": "固定单张 512×512；需要 API 图中指定的 SD 1.5 模型。"
 }

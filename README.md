@@ -1,75 +1,75 @@
-# ComfyTree Agent Skill
+# ComfyTree
 
-ComfyTree 将个人 ComfyUI 工作流登记为语义卡，由 Agent 根据用户需求生成方案，再由 Skill 校验、冻结和执行。仓库包含可独立安装的 `comfytree` 技能、可替换的 Agent 规划器协议、本机服务和 ComfyTree 前端。
+ComfyTree 是面向 ComfyUI 的 Agent Skill：把个人 API 工作流登记为可检索的语义卡，让 Agent 根据任务与素材规划工作流，再经校验后执行。配套前端提供快速生成、工作台编辑和运行结果查看。
 
-**目前是可验证原型，不是完整产品。** 已实测 Codex 规划、本机 ComfyUI 文生图，以及 WorkBuddy 直接调用 Skill。修复后的 CodeBuddy CLI 适配器也已在本机经前端完成一次真实规划和单阶段生成；生成质量仍须单独评价。66 张历史研究卡片还没有执行映射。具体见 [当前状态](STATUS.md)。
+当前发布版本：**v1.0.0**。
 
-## 安装技能
+## 使用前准备
 
-需要 Python 3.9+、用户自己的 ComfyUI 服务及所需模型/自定义节点。将仓库完整目录复制到支持 Agent Skills 的客户端技能目录，例如：
+- 支持 Agent Skills 的客户端，例如 WorkBuddy 或 Codex，以及 Python 3.9 及以上。
+- 可访问的 ComfyUI 服务，以及所选工作流需要的模型和自定义节点。
+- 使用前端时，需要 Node.js 22.12 及以上、npm 和一个已登录且有可用模型权限的规划器 CLI。WorkBuddy 前端规划使用 CodeBuddy CLI；Codex 前端规划使用 Codex CLI。
 
-- Codex：`~/.codex/skills/comfytree/`
-- WorkBuddy：`~/.workbuddy/skills/comfytree/`
-
-具体目录以客户端配置为准。重新加载技能或重启客户端后，可请求 Agent：“使用 ComfyTree 登记我的 ComfyUI API 工作流。”如果先前安装了 `comfyflow-compose`，请停用或移走旧版本，避免两个技能同时匹配。其他支持 Agent Skills 的客户端可以读取同一 `SKILL.md` 和脚本，不需要 Codex；实际发现与工具权限以各客户端为准。
-
-个人工作流、素材、密钥和产物保存在独立的用户目录，不放入技能目录或公开仓库。登记 API 图（普通 UI 格式需要先从 ComfyUI 导出为 API 格式）：
-
-```bash
-python <skill>/scripts/register_workflow.py <api-graph.json> --library <user-library> --id my-workflow
-```
-
-登记产生草稿，不自动推断真实能力和完整节点映射。使用者或 Agent 应检查图与来源说明、补齐全部输入/输出和映射，确认无误后设置 `execution.verified: true`。具体格式见 [执行契约](references/execution.md)。现有 66 张研究卡片尚无已验证执行映射，默认不会被视为可执行候选。
-
-## 启动前端和 Agent 服务
-
-启动 ComfyUI，并准备已核验的个人工作流库。默认使用已登录的 Codex CLI 规划；使用 `--planner workbuddy` 可选择 CodeBuddy CLI 适配器。规划器必须在启动服务的环境中可执行且有模型使用权限，WorkBuddy 桌面登录不保证 CLI 已登录。模型用量和客户端权限由使用者负责。也可用 [规划器协议](references/agent-service.md) 替换为其他 Agent。下面的尖括号是需要替换的路径，保留空格的路径请用引号括起来。
-
-```bash
-# 终端 1：先按自己的部署方式启动 ComfyUI
-# 终端 2：启动仅监听本机的 Agent 服务
-python <skill>/scripts/agent_service.py --library <user-library> --state <private-state-directory> --comfy-url http://127.0.0.1:8188
-
-# 终端 3：首次安装前端依赖后启动界面（Node.js 22.12+）
-cd <skill>/web
-npm ci
-npm run dev
-```
-
-打开 `http://127.0.0.1:5173/`。快速生成可让 Agent 选择工作流，也可先查看方案；工作台可编辑已声明的提示词、参数与槽位。服务将用户的阶段覆盖与 Agent 计划核对，通过后冻结卡片、API 图和素材，并运行 Skill。当前图像执行限制、取消语义和隐私边界见 [Agent 服务说明](references/agent-service.md)。
-
-例如 Windows PowerShell 中，把 `$skill` 改成仓库实际路径，先启动本机 ComfyUI（默认 8188），再分别在两个终端运行：
+在 Windows PowerShell 中，可将仓库安装到 WorkBuddy 的用户技能目录：
 
 ```powershell
-$skill = 'C:\path\to\comfytree'
-python "$skill\scripts\agent_service.py" --library "$skill\examples\text-to-image\library" --state "$env:USERPROFILE\ComfyTree-state" --comfy-url http://127.0.0.1:8188
+git clone https://github.com/Tuom24/ComfyUI_Skill.git "$HOME/.workbuddy/skills/comfytree"
+```
+
+Codex 用户可将目录改为 `"$HOME/.codex/skills/comfytree"`。其他客户端请使用其配置的技能目录。若目标目录已经存在，请在检查本地修改后更新，避免覆盖已有文件。安装后重新加载技能或重启客户端。
+
+可以直接对 Agent 说：
+
+> 使用 ComfyTree 连接我的 ComfyUI，登记我的 API 格式工作流；先检查输入、节点和模型，再根据我的需求生成方案并执行。
+
+Agent 会根据实际环境询问或检查服务地址、工作流和素材。模型、个人工作流、账号、素材和产物由用户自行提供和管理。
+
+## 登记个人工作流
+
+从 ComfyUI 导出 **API 格式** JSON，然后让 Agent 登记，或运行：
+
+```powershell
+python "$skill/scripts/register_workflow.py" "$graph" --library "$library" --id my-workflow
+```
+
+其中 `$skill` 是技能目录，`$graph` 是 API 图文件，`$library` 是独立的个人工作流库目录。登记先生成草稿；核对全部输入、输出、参数、节点映射、模型及依赖后，才能将 `execution.verified` 设为 `true`。字段与映射见[执行契约](references/execution.md)。随仓库提供的 66 张参考卡尚未配置执行映射，需逐张核验后才能运行。
+
+## 使用前端
+
+先启动 ComfyUI，并准备已核验的工作流库。使用 PowerShell 的两个终端分别启动 Agent 服务和前端：
+
+```powershell
+# 终端 1：将路径改为自己的技能目录和工作流库
+$skill = "$HOME/.workbuddy/skills/comfytree"
+$library = "C:/path/to/your-workflow-library"
+python "$skill/scripts/agent_service.py" --library "$library" --state "$HOME/ComfyTree-state" --comfy-url http://127.0.0.1:8188 --planner workbuddy
 ```
 
 ```powershell
-$skill = 'C:\path\to\comfytree'
-Set-Location "$skill\web"
+# 终端 2：安装依赖并启动前端，保持终端开启
+$skill = "$HOME/.workbuddy/skills/comfytree"
+Set-Location "$skill/web"
 npm ci
-npm run dev
+python "$skill/scripts/launch_frontend.py"
 ```
 
-示例文生图需要安装工作流指定的 SD 1.5 模型；模型文件名和其他环境条件见示例卡片。默认 Codex 规划器还需要安装并登录 Codex CLI。只打开前端不能证明生成环境已就绪。
+默认打开 `http://127.0.0.1:5174/`。Codex 用户将服务命令中的 `--planner workbuddy` 改为 `--planner codex`。前端服务默认连接 `http://127.0.0.1:8090`；ComfyUI 或服务使用其他地址时，请相应修改参数。启动器只启动前端，按 `Ctrl+C` 停止。CLI 路径、登录与其他 Agent 接入方法见[前端与 Agent 接入](references/agent-service.md)。
 
-WorkBuddy 示例：先按照 CodeBuddy CLI 的官方方式完成安装和登录，然后在 Agent 服务命令末尾添加 `--planner workbuddy`。如果 CLI 不在常见安装位置，请按[配置说明](references/agent-service.md)提供可执行程序和 CLI 脚本，并确认独立 CLI 登录的账户。适配器只负责规划；它与桌面应用内直接使用 Skill 是两种入口。
+快速生成适合描述需求后由 Agent 规划；工作台支持检查和编辑工作流声明的提示词、参数和输入槽，再运行新版本。个人库中没有合适的已核验工作流时，系统会提示补充。输入可包括图片和遮罩；遮罩需要明确关联目标及白色区域的含义。
 
-也可安装前端依赖后在**持续运行的终端**执行 `python <skill>/scripts/launch_frontend.py`；默认打开 5174 并连接 8090，可用 `--frontend`、`--port`、`--api-url` 指定其他地址。保持终端开启，按 Ctrl+C 停止。启动器不负责启动 ComfyUI 或 Agent 服务；运行在会自动终止任务子进程的 Agent 沙箱时，也必须保持该终端任务活动。
+## 验证与能力范围
 
-## 最小验证
+`examples/smoke/` 是无需模型的图片复制工作流，可验证上传、执行和结果读取；将该目录复制到独立位置，并在其中放入名为 `input.png` 的图片。`examples/text-to-image/library/` 提供 SD 1.5 文生图示例，模型文件名见 API 图；仓库不包含权重。两个示例都需要运行中的 ComfyUI。
 
-`examples/smoke/` 只读取并保存一张图片，验证接口和阶段传递，不需要生图模型；将它复制到独立目录并放入 `input.png`。`examples/text-to-image/library/` 是已在指定 SD 1.5 模型上实测的单阶段文生图卡片与 API 图，**不包含模型权重**。两种示例都需要实际运行的 ComfyUI；工作流和模型的可用性以用户环境为准。
-
-```bash
-python <skill>/scripts/validate_plan.py <plan.json> --cards <user-library>/cards
-python <skill>/scripts/run_plan.py <plan.json> --cards <user-library>/cards --server http://127.0.0.1:8188 --output <new-output-directory> --check
-# 预检通过后去掉 --check 才会提交执行
+```powershell
+python "$skill/scripts/validate_plan.py" "$plan" --cards "$library/cards"
+python "$skill/scripts/run_plan.py" "$plan" --cards "$library/cards" --server http://127.0.0.1:8188 --output "$output" --check
 ```
 
-开发测试：`python -m unittest discover -s tests -v`；前端在 `web/` 运行 `npm test` 和 `npm run build`。模拟测试不能替代模型、第三方节点及其他 Agent 产品的真实联调。
+将变量替换为实际路径。预检通过后去掉 `--check` 才会执行；`$output` 必须是尚不存在的新目录。
 
-## 开放与赛事材料
+当前执行器支持文本、`LoadImage` 图片及遮罩输入，以及单张 `SaveImage` 输出，也可将阶段图片传递给后续阶段。视频、音频、多图输出及其他媒体节点需要额外执行器；模型、自定义节点、图像尺寸和生成效果仍取决于具体工作流与环境。
 
-本仓库未包含模型权重、用户素材、密钥、运行记录或录制案例图片。自研代码许可证按团队决定暂不指定；现有工作流及其第三方依赖的权利需要逐项核验。[资源使用清单](OPEN_SOURCE_INVENTORY.md) 和 [状态说明](STATUS.md) 如实列出待办，不等于已经完成全部赛事许可审查。
+## 资源与许可
+
+仓库不包含模型权重和用户素材。项目代码暂未指定许可证；公开可见并不自动授予开源使用或再分发许可。工作流和第三方依赖的来源及许可状态见[资源清单](OPEN_SOURCE_INVENTORY.md)。

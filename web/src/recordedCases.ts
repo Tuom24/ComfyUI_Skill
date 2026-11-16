@@ -1,3 +1,3 @@
 import type { Creation } from './domain';
-// Historical competition media is not included in the public release.
+// The application starts without preloaded user records.
 export const recordedCases: Creation[] = [];

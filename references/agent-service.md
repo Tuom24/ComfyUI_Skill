@@ -37,7 +37,7 @@ python "$skill\scripts\agent_service.py" --library "$library" --state "$state" -
 
 `GET /api/health` 的 `ok` 表示服务与 ComfyUI 能通信；`comfyui.available` 和 `library.available` 分别表示 ComfyUI 连通和卡片目录存在，目录存在不代表卡片已核验。`plannerConfigured` 仅表示配置非空。`planner.available` 只检查 CLI 命令和可指定脚本是否存在，`planner.login` 为 `unknown`，不会在健康检查时消耗模型额度或声称已登录。前端会提示找不到规划器；实际规划时如 CLI 返回未登录，会显示登录提示。不要将健康检查当作生图成功。
 
-`launch_frontend.py` 在当前终端持有 Vite 进程直到 Ctrl+C。它会提示 Agent 服务是否可达，但不启动 Agent 服务或 ComfyUI。在会回收子进程的工具执行环境中，应使用持久的前台终端运行并保持该任务开启；本机前台启动和停止已测试，不能保证所有桌面或沙箱环境都保留子进程。
+`launch_frontend.py` 在当前终端持有 Vite 进程直到 Ctrl+C。它会提示 Agent 服务是否可达，但不启动 Agent 服务或 ComfyUI。在会回收子进程的工具执行环境中，应使用持久的前台终端运行并保持该任务开启。
 
 规划器会接收用户的文字需求、素材名称与用途、工作流卡片和手动覆盖；若所选 Agent 使用云端模型，这些信息可能被发送给其服务商。素材文件本身由本机服务处理，不通过规划器协议传输。使用者应根据所选 Agent 的服务条款决定是否处理敏感数据。
 

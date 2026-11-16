@@ -8,9 +8,9 @@ export const CAPABILITIES: Capability[] = [
   { id: 'talking', name: '让照片开口说话', subtitle: '人物视频', kind: 'video', category: '视频创作', required: ['source', 'video'], state: 'unavailable', prompt: '', cover: '/art/still.svg', workflow: '由联合选择器确定', description: '当前演示环境缺少驱动依赖，暂不可用。需要人物图片与驱动视频。' },
 ];
 export const LIMITS = { maxAssets: 8, imageBytes: 20 * 1024 * 1024, videoBytes: 200 * 1024 * 1024, accepted: ['image/png', 'image/jpeg', 'image/webp', 'video/mp4', 'video/webm'] };
-export const PROTOCOL: Protocol = { profile: 'capability_single_pass', workflowCount: 66, topK: 20, queryLimit: 1, maxAttempts: 3, evaluator: 'ComfyBench official', dataset: 'ComfyBench-200-original' };
-export const DEMO_BATCH: Benchmark = { id: 'demo-batch', name: '单次检索 RAG · 界面演示', source: 'demo', status: 'completed', createdAt: Date.UTC(2026, 9, 23, 2), total: 4, protocol: PROTOCOL, cases: [
-  { id: 'demo-001', prompt: '生成海岸建筑的极简摄影作品', routing: 'passed', execution: 'completed', quality: 'passed', attempts: 1, artifact: '/art/coast.svg', evidence: ['模拟能力描述：生成海岸建筑图像。', '模拟检索：66 → Top-20；匿名工作流 W404dc3bdaa。', '模拟组合校验：文本输入 → 图片输出，依赖有效。', '模拟官方评价：通过。此记录不是实际实验结果。'] },
+export const PROTOCOL: Protocol = { profile: 'demo', workflowCount: 10, topK: 5, queryLimit: 1, maxAttempts: 3, evaluator: '示例评价', dataset: '示例数据' };
+export const DEMO_BATCH: Benchmark = { id: 'demo-batch', name: '模拟评测 · 界面演示', source: 'demo', status: 'completed', createdAt: Date.UTC(2026, 9, 23, 2), total: 4, protocol: PROTOCOL, cases: [
+  { id: 'demo-001', prompt: '生成海岸建筑的极简摄影作品', routing: 'passed', execution: 'completed', quality: 'passed', attempts: 1, artifact: '/art/coast.svg', evidence: ['模拟能力描述：生成海岸建筑图像。', '模拟工作流匹配。', '模拟组合校验：文本输入 → 图片输出，依赖有效。', '模拟评价：通过。此记录不是实际实验结果。'] },
   { id: 'demo-002', prompt: '将参考图片调整为胶片风格', routing: 'passed', execution: 'completed', quality: 'failed', attempts: 3, artifact: '/art/still.svg', reason: '模拟：主体保持未达到质量要求', evidence: ['模拟检索：Wfaf115c6c9。', '模拟执行：共 3 次尝试，包含首次执行。', '模拟评价：未达到主体保持要求。'] },
   { id: 'demo-166', prompt: '修改输入图像人物的肤色', routing: 'failed', execution: 'not_run', quality: 'not_evaluated', attempts: 0, reason: '模拟：候选工作流需要未提供的遮罩', evidence: ['模拟组合失败：缺少 mask。', '记录 routing_failed；不补检索；保留在分母中。'] },
   { id: 'demo-189', prompt: '由单张人物照片生成说话视频', routing: 'failed', execution: 'not_run', quality: 'not_evaluated', attempts: 0, reason: '模拟：缺少 driving video', evidence: ['模拟输入：只有图片。', '候选需要未提供的 driving video。', '记录 routing_failed。该示例只说明失败处理逻辑。'] },
