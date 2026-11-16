@@ -29,7 +29,7 @@ function Shell() {
   const location = useLocation(); const [mobile, setMobile] = useState(false);
   const theme = usePilot(s => s.theme); const collapsed = usePilot(s => s.sidebarCollapsed);
   const palette = usePilot(s => s.palette);
-  const connected = usePilot(s => s.connected); const storageIssue = useSyncExternalStore(subscribePersistence, persistenceSnapshot);
+  const connected = usePilot(s => s.connected); const plannerIssue = usePilot(s => s.plannerIssue); const storageIssue = useSyncExternalStore(subscribePersistence, persistenceSnapshot);
   useLayoutEffect(() => { applyAppearance(theme, palette); }, [theme, palette]);
   useEffect(() => { setMobile(false); window.scrollTo(0, 0); }, [location.pathname]);
   useEffect(() => { usePilot.getState().recover(); return startMockEngine(); }, [usePilot]);
@@ -42,7 +42,7 @@ function Shell() {
       <div className="sidebar-bottom"><NavLink to="/evaluations" className={({ isActive }) => clsx('nav-item', isActive && 'active')} title="评测记录"><FlaskConical size={18}/><span>评测记录</span></NavLink><NavLink to="/help" className={({ isActive }) => clsx('nav-item', isActive && 'active')} title="使用与开放说明"><BookOpen size={18}/><span>使用与开放说明</span></NavLink><NavLink to="/team" className={({ isActive }) => clsx('nav-item', isActive && 'active')} title="团队工具"><Settings2 size={18}/><span>团队工具</span></NavLink><div className="sidebar-environment"><span className="status-dot"/><span>{recordingMode?'案例资料':liveMode?'创作服务':'本地演示'} <small>{recordingMode?'已有运行记录':liveMode?'真实运行服务':'模型服务尚未连接'}</small></span></div></div>
     </aside>
     <div className="main-shell"><header className="topbar"><div className="topbar-start"><IconButton label={mobile ? '关闭导航' : '打开导航'} className="mobile-menu" aria-expanded={mobile} aria-controls="app-sidebar" onClick={() => setMobile(!mobile)}>{mobile ? <X size={19}/> : <Menu size={19}/>}</IconButton><IconButton label={collapsed ? '展开侧栏' : '收起侧栏'} className="desktop-collapse" aria-expanded={!collapsed} aria-controls="app-sidebar" onClick={() => usePilot.getState().toggleSidebar()}>{collapsed ? <PanelLeftOpen size={18}/> : <PanelLeftClose size={18}/>}</IconButton><span className="breadcrumb">ComfyTree <ChevronRight size={13}/><strong>{section}</strong></span></div><div className="topbar-actions"><span className="connection-indicator"><span className={clsx('status-dot', !connected && 'offline')}/>{recordingMode?'历史案例':connected ? liveMode?'创作服务':'演示模式' : '连接中断'}</span><ThemePicker/></div></header>
-      <BuildUpdateNotice/>{storageIssue && <div className="storage-warning" role="alert">{storageIssue}</div>}
+      <BuildUpdateNotice/>{storageIssue && <div className="storage-warning" role="alert">{storageIssue}</div>}{liveMode && plannerIssue && <div className="storage-warning" role="alert">启动检查：{plannerIssue}</div>}
       <main id="main-content" tabIndex={-1}><Routes><Route path="/" element={<Home/>}/><Route path="/assistant" element={<Assistant/>}/><Route path="/assistant/:id" element={<Assistant/>}/><Route path="/workbench" element={<WorkbenchStart/>}/><Route path="/workbench/:id" element={<Workbench/>}/><Route path="/create/:id" element={<LegacyCreation/>}/><Route path="/creations" element={<History/>}/><Route path="/assets" element={<Assets/>}/><Route path="/capabilities" element={<Capabilities/>}/><Route path="/evaluations" element={<Evaluations/>}/><Route path="/team" element={<Team/>}/><Route path="/help" element={<Help/>}/><Route path="*" element={<Navigate to="/" replace/>}/></Routes></main>
     </div><Toast/>
   </div>;

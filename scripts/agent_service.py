@@ -21,6 +21,7 @@ from urllib.parse import urlsplit
 
 from run_plan import get_json, prepare, run
 from validate_plan import validate
+from planner_common import cli_available
 
 ID = re.compile(r'^[A-Za-z0-9][A-Za-z0-9_-]{0,99}$')
 TERMINAL = {'completed', 'failed', 'cancelled'}
@@ -40,12 +41,36 @@ class Service:
         self.library, self.state, self.comfy, self.command = library.resolve(), state.resolve(), comfy.rstrip('/'), command
         self.state.mkdir(parents=True, exist_ok=True)
         self.lock = threading.RLock(); self.active = {}; self.cancel = {}
+        self._planner_cache = (0, None)
 
     def path(self, kind, identifier): return self.state / kind / (token(identifier) + '.json')
     def get(self, kind, identifier):
         p = self.path(kind, identifier)
         return load(p) if p.is_file() else None
     def save(self, kind, identifier, data): write(self.path(kind, identifier), data)
+
+    def planner_status(self, refresh=False):
+        checked_at, cached = self._planner_cache
+        if not refresh and cached is not None and time.monotonic()-checked_at < 15: return cached
+        status = self._check_planner()
+        self._planner_cache = (time.monotonic(), status)
+        return status
+
+    def _check_planner(self):
+        if not self.command: return {'available':False, 'message':'未配置 Agent 规划器。', 'login':'unknown'}
+        bundled = Path(__file__).resolve().parent
+        adapters = {str((bundled / name).resolve()) for name in ('codex_planner.py','workbuddy_planner.py')}
+        if len(self.command) == 2 and str(Path(self.command[1]).resolve()) in adapters:
+            try:
+                result = subprocess.run([*self.command, '--check'], capture_output=True, text=True, encoding='utf-8',
+                                        errors='replace', timeout=10, env={**os.environ,'PYTHONUTF8':'1','PYTHONIOENCODING':'utf-8'})
+                info = json.loads(result.stdout)
+                return {'available':info.get('available') is True and result.returncode == 0,
+                        'message':str(info.get('message','规划器检查失败'))[:300], 'login':'unknown'}
+            except (OSError, ValueError, subprocess.TimeoutExpired):
+                return {'available':False, 'message':'无法检查规划器配置，请检查 Python 和 CLI 路径。', 'login':'unknown'}
+        available, message = cli_available(self.command)
+        return {'available':available, 'message':message, 'login':'unknown'}
 
     def cards(self):
         result = {}
@@ -128,10 +153,17 @@ class Service:
                          'negative_prompt':revision.get('negativePrompt',''),'preferred_workflow':revision.get('preferredWorkflow'),
                          'stage_edits':revision.get('stageEdits') or {},'materials':[{k:a[k] for k in ('id','type','name','role')} for a in assets],
                          'cards':list(cards.values())}
+        status = self.planner_status(refresh=True)
+        if not status['available']: raise RuntimeError(status['message'])
         env=os.environ.copy(); env['PYTHONUTF8']='1'; env['PYTHONIOENCODING']='utf-8'
-        proc = subprocess.run(self.command, input=json.dumps(agent_request,ensure_ascii=False), text=True,encoding='utf-8',
-                              stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=360,cwd=self.state,env=env)
-        if proc.returncode: raise RuntimeError('Agent 规划失败；请检查 Agent 安装、登录状态及其命令配置')
+        try:
+            proc = subprocess.run(self.command, input=json.dumps(agent_request,ensure_ascii=False), text=True,encoding='utf-8',
+                                  stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=360,cwd=self.state,env=env)
+        except OSError as exc: raise RuntimeError('无法启动 Agent 规划器，请检查可执行文件路径。') from exc
+        if proc.returncode:
+            if '尚未登录或授权' in proc.stderr: raise RuntimeError('WorkBuddy/CodeBuddy CLI 尚未登录或授权；请在该 CLI 中完成登录。桌面客户端登录不保证 CLI 已登录。')
+            if '未返回可解析的结构化方案' in proc.stderr: raise RuntimeError('WorkBuddy/CodeBuddy CLI 未返回可解析的结构化方案，请检查模型和 CLI 版本。')
+            raise RuntimeError('Agent 规划失败；请检查 Agent 登录状态、模型权限及其命令配置。')
         if len(proc.stdout)>1_000_000: raise ValueError('Agent 响应过大')
         response = json.loads(proc.stdout)
         if not isinstance(response,dict) or response.get('kind') not in ('plan','clarification'): raise ValueError('Agent 响应格式不合法')
@@ -313,7 +345,12 @@ class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
         try:
             self.local_request(); path=urlsplit(self.path).path; svc=self.service
-            if path=='/api/health': get_json(svc.comfy,'/system_stats'); return self.reply(200,{'ok':True,'plannerConfigured':bool(svc.command)})
+            if path=='/api/health':
+                planner = svc.planner_status()
+                library = {'available':(svc.library/'cards').is_dir(), 'message':'工作流库 cards 目录不存在，请检查 --library 路径。'}
+                try: get_json(svc.comfy,'/system_stats')
+                except Exception: return self.reply(503,{'ok':False,'error':'无法连接 ComfyUI，请检查服务是否启动及 --comfy-url 地址。','planner':planner,'library':library})
+                return self.reply(200,{'ok':True,'plannerConfigured':bool(svc.command),'planner':planner,'library':library})
             if path=='/api/catalog': return self.reply(200,svc.catalog())
             if path.startswith('/api/workflows/'):
                 wid=token(path.split('/')[-1]); card=svc.cards().get(wid)
@@ -364,14 +401,19 @@ def main():
     ap.add_argument('--library',type=Path,required=True); ap.add_argument('--state',type=Path,required=True)
     ap.add_argument('--comfy-url',default='http://127.0.0.1:8188'); ap.add_argument('--port',type=int,default=8090)
     ap.add_argument('--planner-command-json',help='JSON argument array for another planner; default is bundled Codex adapter')
+    ap.add_argument('--planner',choices=['codex','workbuddy'],default='codex',help='Built-in planner adapter; WorkBuddy uses CodeBuddy CLI')
     ap.add_argument('--planner-executable',help='Alternative planner executable; no shell is used')
     ap.add_argument('--planner-arg',action='append',default=[],help='Repeat for each argument to the planner executable')
     args=ap.parse_args()
     if args.planner_command_json and (args.planner_executable or args.planner_arg): raise ValueError('choose one planner command form')
     if args.planner_arg and not args.planner_executable: raise ValueError('--planner-arg requires --planner-executable')
-    command=json.loads(args.planner_command_json) if args.planner_command_json else [args.planner_executable,*args.planner_arg] if args.planner_executable else [sys.executable,str(Path(__file__).with_name('codex_planner.py'))]
+    if args.planner != 'codex' and (args.planner_command_json or args.planner_executable): raise ValueError('choose built-in planner or custom planner command')
+    command=json.loads(args.planner_command_json) if args.planner_command_json else [args.planner_executable,*args.planner_arg] if args.planner_executable else [sys.executable,str(Path(__file__).with_name(args.planner+'_planner.py'))]
     if not isinstance(command,list) or not command or not all(isinstance(x,str) and x for x in command): raise ValueError('planner command must be a nonempty JSON string array')
     Handler.service=Service(args.library,args.state,args.comfy_url,command)
     print(f'ComfyTree agent service http://127.0.0.1:{args.port}',flush=True)
+    status = Handler.service.planner_status()
+    print('规划器检查：' + status['message'],flush=True)
+    if not (args.library / 'cards').is_dir(): print('工作流库 cards 目录不存在，请检查 --library 路径。',flush=True)
     ThreadingHTTPServer(('127.0.0.1',args.port),Handler).serve_forever()
 if __name__=='__main__': main()

@@ -20,6 +20,25 @@
 
 默认规划器 `scripts/codex_planner.py` 调用用户已登录的 Codex CLI，并将结构化结果转换为上述通用协议。Codex 规划运行在只读沙箱，不直接执行 ComfyUI；可能产生用户的模型用量。其他 Agent 无需实现 Codex CLI：提供实现上述标准输入/输出协议的程序，并启动服务时使用 `--planner-executable <程序> --planner-arg <参数>`；每个参数分别传一次 `--planner-arg`。程序及调用凭证由使用者自己提供。直接在其他支持 Agent Skills 的工具中安装和使用本技能，也不需要此前端服务。
 
+### WorkBuddy / CodeBuddy CLI
+
+启动 Agent 服务时使用 `--planner workbuddy`。适配器 `scripts/workbuddy_planner.py` 调用 CodeBuddy CLI 的非交互模式，禁用内置工具和 MCP，要求 JSON Schema 输出，并转换成上述协议。它不会使用固定规则假装模型规划；服务仍独立校验模型结果。调用会使用 CLI 配置的模型、账户和额度，可能向该服务商发送任务及卡片数据。具体 CLI 产品版本、登录和权限以提供方为准。
+
+默认寻找 PATH 中的 `codebuddy`。若 CLI 需要通过 Node 调用，或 Windows 上只有 `.cmd` 包装脚本，在启动 Agent 服务的同一环境中设置 `COMFYTREE_WORKBUDDY_CLI_JSON` 为可执行文件及脚本的 JSON 字符串数组，例如 PowerShell：
+
+```powershell
+$env:COMFYTREE_WORKBUDDY_CLI_JSON = '["C:\\path\\to\\node.exe", "C:\\path\\to\\codebuddy-script"]'
+python "$skill\scripts\agent_service.py" --library "$library" --state "$state" --comfy-url http://127.0.0.1:8188 --planner workbuddy
+```
+
+请将路径、`$skill`、`$library` 和 `$state` 替换为自己的实际值，保持该终端和环境变量有效。Windows `.cmd`/`.bat` 入口不会被适配器通过 shell 执行；请指定实际可执行程序及脚本。若使用 WorkBuddy 桌面内置 CLI 的非公开入口，其路径和运行环境可能随版本改变；适配器不提取或复用桌面登录令牌，请按提供方支持的方式使 CLI 自身完成登录。使用 `python "$skill\scripts\workbuddy_planner.py" --check` 只检查可执行文件是否存在，**不验证登录或模型**；成功规划仍需一次真实请求。本机独立 CLI 曾返回需要登录，尚未完成真实 WorkBuddy 模型端到端验证。
+
+### 启动诊断
+
+`GET /api/health` 的 `ok` 表示服务与 ComfyUI 能通信；`plannerConfigured` 仅表示配置非空。`planner.available` 只检查 CLI 命令和可指定脚本是否存在，`planner.login` 为 `unknown`，不会在健康检查时消耗模型额度或声称已登录。前端会提示找不到规划器；实际规划时如 CLI 返回未登录，会显示登录提示。不要将健康检查当作生图成功。
+
+`launch_frontend.py` 在当前终端持有 Vite 进程直到 Ctrl+C。它会提示 Agent 服务是否可达，但不启动 Agent 服务或 ComfyUI。在会回收子进程的工具执行环境中，应使用持久的前台终端运行并保持该任务开启；本机前台启动和停止已测试，不能保证所有桌面或沙箱环境都保留子进程。
+
 规划器会接收用户的文字需求、素材名称与用途、工作流卡片和手动覆盖；若所选 Agent 使用云端模型，这些信息可能被发送给其服务商。素材文件本身由本机服务处理，不通过规划器协议传输。使用者应根据所选 Agent 的服务条款决定是否处理敏感数据。
 
 ## 当前边界

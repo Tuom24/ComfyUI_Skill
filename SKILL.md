@@ -18,6 +18,6 @@ description: 使用 ComfyTree 管理个人 ComfyUI 工作流、匹配和组合�
 
 ## ComfyTree 前端
 
-用户要求使用前端时，优先使用本技能 `web/` 中的 ComfyTree 前端；用户明确指定其他版本时使用其路径。先按 [Agent 服务说明](references/agent-service.md) 准备工作流库、ComfyUI 和 Agent 规划器，并运行 `scripts/agent_service.py`；安装前端依赖后运行 `python <skill>/scripts/launch_frontend.py`。默认 Codex 是可替换的规划器，不是技能格式要求；其他 Agent 可直接使用技能或实现该协议。不要仅凭页面打开就声称生成环境可用。
+用户要求使用前端时，优先使用本技能 `web/` 中的 ComfyTree 前端；用户明确指定其他版本时使用其路径。先按 [Agent 服务说明](references/agent-service.md) 准备工作流库、ComfyUI 和 Agent 规划器，并运行 `scripts/agent_service.py`；安装前端依赖后，在持续运行的终端中运行 `python <skill>/scripts/launch_frontend.py`。默认 Codex 可替换；`--planner workbuddy` 使用已登录的 CodeBuddy CLI，桌面登录不一定包含 CLI 登录。其他 Agent 可直接使用技能或实现该协议。不要仅凭页面打开或命令存在就声称生成环境可用。
 
 如需字段细节和边界，阅读 [执行契约](references/execution.md)。

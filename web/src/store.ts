@@ -14,7 +14,7 @@ import { classifyTurn, compileSpec, currentArtifact, initialSpec, requestsCurren
 
 interface Store {
   tasks: Creation[]; batches: Benchmark[]; libraryAssets: Asset[]; assetGroups: AssetGroup[]; assetGroupById: Record<string, string>; theme: 'dark' | 'light'; palette: PaletteId; scenario: Scenario; connected: boolean;
-  view: 'workbench' | 'chat'; sidebarCollapsed: boolean; toast: string | null;
+  view: 'workbench' | 'chat'; sidebarCollapsed: boolean; toast: string | null; plannerIssue: string;
   notify(message: string): void; setTheme(): void; setView(view: Store['view']): void; setTaskView(id:string,view:'assistant'|'workbench'):void; toggleSidebar(): void;
   setAppearance(theme: Store['theme']): void; setPalette(palette: PaletteId): void; resetAppearance(): void;
   setScenario(value: Scenario): void; setConnected(value: boolean): void;
@@ -44,7 +44,7 @@ let liveSyncing=false;
 let toastTimer: ReturnType<typeof setTimeout>;
 export const usePilot = create<Store>()(persist((set, get) => ({
   tasks: recordingMode ? structuredClone(recordedCases) : [], batches: liveMode ? [] : [DEMO_BATCH], libraryAssets: [], assetGroups: [], assetGroupById: {}, theme: 'light', palette: 'graphite', scenario: 'normal', connected: true,
-  view: 'workbench', sidebarCollapsed: false, toast: null,
+  view: 'workbench', sidebarCollapsed: false, toast: null, plannerIssue: '',
   notify(text) { clearTimeout(toastTimer); set({ toast: text }); toastTimer = setTimeout(() => set({ toast: null }), 4200); },
   setTheme: () => set(s => ({ theme: s.theme === 'dark' ? 'light' : 'dark' })),
   setAppearance: theme => set({ theme }),
@@ -219,8 +219,9 @@ export const usePilot = create<Store>()(persist((set, get) => ({
     if (!liveMode || liveSyncing) return;
     liveSyncing = true;
     try {
-      await fetch('/api/health', {cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('服务未连接');});
-      set({connected:true});
+      const health = await fetch('/api/health', {cache:'no-store'}).then(async r=>{const body = await r.json().catch(()=>({})) as {ok:boolean;error?:string;planner?:{available:boolean;message:string};library?:{available:boolean;message:string}};if(!r.ok)throw new Error(body.error || '无法连接 Agent 服务，请检查服务是否启动及前端代理地址。');return body;});
+      if (!health.ok) throw new Error('服务未连接');
+      set({connected:true, plannerIssue:health.library && !health.library.available ? health.library.message : health.planner && !health.planner.available ? health.planner.message : ''});
       for (const task of get().tasks) for (const run of task.runs.filter(r=>r.source==='live'&&isActive(r))) {
         try {
           const revision = task.revisions.find(r=>r.id===run.revisionId);
@@ -242,7 +243,7 @@ export const usePilot = create<Store>()(persist((set, get) => ({
           set({connected:false});
         }
       }
-    } catch {set({connected:false});}
+    } catch(error) {set({connected:false,plannerIssue:error instanceof ApiError ? error.message : error instanceof Error && error.message !== 'Failed to fetch' ? error.message : '无法连接 Agent 服务，请检查服务是否启动及前端代理地址。'});}
     finally {liveSyncing=false;}
   },
   async tick() {

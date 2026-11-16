@@ -2,7 +2,7 @@
 
 ComfyTree 将个人 ComfyUI 工作流登记为语义卡，由 Agent 根据用户需求生成方案，再由 Skill 校验、冻结和执行。仓库包含可独立安装的 `comfytree` 技能、可替换的 Agent 规划器协议、本机服务和 ComfyTree 前端。
 
-**目前是可验证原型，不是完整产品。** 已实测真实 Codex 规划、本机 ComfyUI 文生图、前端快速生成和工作台修改参数后复跑；已在本机验证图片复制的两阶段传递。其他 Agent 产品尚待独立端到端测试；66 张历史研究卡片还没有执行映射。具体见 [当前状态](STATUS.md)。
+**目前是可验证原型，不是完整产品。** 已实测真实 Codex 规划、本机 ComfyUI 文生图、前端快速生成和工作台修改参数后复跑；WorkBuddy 已直接调用 Skill 完成图片复制和文生图。WorkBuddy 规划器适配已实现，但尚待有 CLI 登录权限的环境完成真实规划联调；66 张历史研究卡片还没有执行映射。具体见 [当前状态](STATUS.md)。
 
 ## 安装技能
 
@@ -23,7 +23,7 @@ python <skill>/scripts/register_workflow.py <api-graph.json> --library <user-lib
 
 ## 启动前端和 Agent 服务
 
-启动 ComfyUI，并准备已核验的个人工作流库。默认使用已登录的 Codex CLI 规划；模型用量和客户端权限由使用者负责。也可用 [规划器协议](references/agent-service.md) 替换为其他 Agent。下面的尖括号是需要替换的路径，保留空格的路径请用引号括起来。
+启动 ComfyUI，并准备已核验的个人工作流库。默认使用已登录的 Codex CLI 规划；使用 `--planner workbuddy` 可选择 CodeBuddy CLI 适配器。规划器必须在启动服务的环境中可执行且有模型使用权限，WorkBuddy 桌面登录不保证 CLI 已登录。模型用量和客户端权限由使用者负责。也可用 [规划器协议](references/agent-service.md) 替换为其他 Agent。下面的尖括号是需要替换的路径，保留空格的路径请用引号括起来。
 
 ```bash
 # 终端 1：先按自己的部署方式启动 ComfyUI
@@ -54,7 +54,9 @@ npm run dev
 
 示例文生图需要安装工作流指定的 SD 1.5 模型；模型文件名和其他环境条件见示例卡片。默认 Codex 规划器还需要安装并登录 Codex CLI。只打开前端不能证明生成环境已就绪。
 
-也可安装前端依赖后运行 `python <skill>/scripts/launch_frontend.py`；默认打开 5174 并连接 8090，可用 `--frontend`、`--port`、`--api-url` 指定其他地址。启动器不负责启动 ComfyUI 或 Agent 服务。
+WorkBuddy 示例：先按照 CodeBuddy CLI 的官方方式完成安装和登录，然后在 Agent 服务命令末尾添加 `--planner workbuddy`。CLI 不在 PATH 或 Windows 使用批处理入口时，请按[配置说明](references/agent-service.md)提供可执行程序和 CLI 脚本。适配器只负责规划；它与桌面应用内直接使用 Skill 是两种入口。
+
+也可安装前端依赖后在**持续运行的终端**执行 `python <skill>/scripts/launch_frontend.py`；默认打开 5174 并连接 8090，可用 `--frontend`、`--port`、`--api-url` 指定其他地址。保持终端开启，按 Ctrl+C 停止。启动器不负责启动 ComfyUI 或 Agent 服务；运行在会自动终止任务子进程的 Agent 沙箱时，也必须保持该终端任务活动。
 
 ## 最小验证
 
