@@ -162,6 +162,7 @@ class Service:
         except OSError as exc: raise RuntimeError('无法启动 Agent 规划器，请检查可执行文件路径。') from exc
         if proc.returncode:
             if '尚未登录或授权' in proc.stderr: raise RuntimeError('WorkBuddy/CodeBuddy CLI 尚未登录或授权；请在该 CLI 中完成登录。桌面客户端登录不保证 CLI 已登录。')
+            if '规划超时' in proc.stderr: raise RuntimeError('WorkBuddy/CodeBuddy 规划超时，未提交 ComfyUI；请检查网络和模型状态。')
             if '未返回可解析的结构化方案' in proc.stderr: raise RuntimeError('WorkBuddy/CodeBuddy CLI 未返回可解析的结构化方案，请检查模型和 CLI 版本。')
             raise RuntimeError('Agent 规划失败；请检查 Agent 登录状态、模型权限及其命令配置。')
         if len(proc.stdout)>1_000_000: raise ValueError('Agent 响应过大')
@@ -347,10 +348,13 @@ class Handler(BaseHTTPRequestHandler):
             self.local_request(); path=urlsplit(self.path).path; svc=self.service
             if path=='/api/health':
                 planner = svc.planner_status()
-                library = {'available':(svc.library/'cards').is_dir(), 'message':'工作流库 cards 目录不存在，请检查 --library 路径。'}
+                library_available = (svc.library/'cards').is_dir()
+                library = {'available':library_available, 'message':'工作流库目录可访问；可执行卡片仍需核验。' if library_available else '工作流库 cards 目录不存在，请检查 --library 路径。'}
                 try: get_json(svc.comfy,'/system_stats')
-                except Exception: return self.reply(503,{'ok':False,'error':'无法连接 ComfyUI，请检查服务是否启动及 --comfy-url 地址。','planner':planner,'library':library})
-                return self.reply(200,{'ok':True,'plannerConfigured':bool(svc.command),'planner':planner,'library':library})
+                except Exception:
+                    message='无法连接 ComfyUI，请检查服务是否启动及 --comfy-url 地址。'
+                    return self.reply(503,{'ok':False,'error':message,'comfyui':{'available':False,'message':message},'planner':planner,'library':library})
+                return self.reply(200,{'ok':True,'plannerConfigured':bool(svc.command),'comfyui':{'available':True,'message':'ComfyUI 服务可访问。'},'planner':planner,'library':library})
             if path=='/api/catalog': return self.reply(200,svc.catalog())
             if path.startswith('/api/workflows/'):
                 wid=token(path.split('/')[-1]); card=svc.cards().get(wid)

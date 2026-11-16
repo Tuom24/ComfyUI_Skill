@@ -29,10 +29,12 @@ class ServiceTests(unittest.TestCase):
                     with urllib.request.urlopen(url,timeout=3) as response: health=json.load(response)
                 self.assertTrue(health['ok']); self.assertFalse(health['planner']['available'])
                 self.assertEqual(health['planner']['login'],'unknown');self.assertTrue(health['library']['available'])
+                self.assertNotIn('不存在',health['library']['message']);self.assertTrue(health['comfyui']['available'])
                 with patch('agent_service.get_json', side_effect=OSError('connection')):
                     with self.assertRaises(urllib.error.HTTPError) as caught: urllib.request.urlopen(url,timeout=3)
                     self.assertEqual(caught.exception.code,503)
-                    self.assertIn('无法连接 ComfyUI',json.load(caught.exception)['error'])
+                    failure=json.load(caught.exception)
+                    self.assertIn('无法连接 ComfyUI',failure['error']); self.assertFalse(failure['comfyui']['available'])
             finally:
                 server.shutdown();server.server_close();thread.join()
 

@@ -24,18 +24,18 @@
 
 启动 Agent 服务时使用 `--planner workbuddy`。适配器 `scripts/workbuddy_planner.py` 调用 CodeBuddy CLI 的非交互模式，禁用内置工具和 MCP，要求 JSON Schema 输出，并转换成上述协议。它不会使用固定规则假装模型规划；服务仍独立校验模型结果。调用会使用 CLI 配置的模型、账户和额度，可能向该服务商发送任务及卡片数据。具体 CLI 产品版本、登录和权限以提供方为准。
 
-默认寻找 PATH 中的 `codebuddy`。若 CLI 需要通过 Node 调用，或 Windows 上只有 `.cmd` 包装脚本，在启动 Agent 服务的同一环境中设置 `COMFYTREE_WORKBUDDY_CLI_JSON` 为可执行文件及脚本的 JSON 字符串数组，例如 PowerShell：
+默认寻找 PATH 中的 `codebuddy`。Windows 默认 npm 全局目录中的 CodeBuddy 安装会自动通过 Node 与实际 JS 入口运行；不会通过 shell 执行 `.cmd`。其他安装位置或需要指定 CLI 时，可在启动 Agent 服务的同一环境中设置 `COMFYTREE_WORKBUDDY_CLI_JSON` 为可执行文件及脚本的 JSON 字符串数组，例如 PowerShell：
 
 ```powershell
 $env:COMFYTREE_WORKBUDDY_CLI_JSON = '["C:\\path\\to\\node.exe", "C:\\path\\to\\codebuddy-script"]'
 python "$skill\scripts\agent_service.py" --library "$library" --state "$state" --comfy-url http://127.0.0.1:8188 --planner workbuddy
 ```
 
-请将路径、`$skill`、`$library` 和 `$state` 替换为自己的实际值，保持该终端和环境变量有效。Windows `.cmd`/`.bat` 入口不会被适配器通过 shell 执行；请指定实际可执行程序及脚本。若使用 WorkBuddy 桌面内置 CLI 的非公开入口，其路径和运行环境可能随版本改变；适配器不提取或复用桌面登录令牌，请按提供方支持的方式使 CLI 自身完成登录。使用 `python "$skill\scripts\workbuddy_planner.py" --check` 只检查可执行文件是否存在，**不验证登录或模型**；成功规划仍需一次真实请求。本机独立 CLI 曾返回需要登录，尚未完成真实 WorkBuddy 模型端到端验证。
+请将路径、`$skill`、`$library` 和 `$state` 替换为自己的实际值，保持该终端和环境变量有效。默认会从 CLI 子进程环境中移除桌面注入的 `WORKBUDDY_*` 和 `CODEBUDDY_*` 会话及账号配置变量，保留安全、沙箱和审批相关变量，使用独立 CLI 自身登录的账户，避免桌面会话变量使 CLI 读取错误的配置；其他环境变量保留。如果用户明确需要继承自定义 CLI 环境，可设置 `COMFYTREE_WORKBUDDY_ENV=inherit`，并自行确认 CLI 所用账户、模型与数据去向。此开关可能重新引入桌面环境导致的登录问题。适配器不提取或复用桌面登录令牌，请按提供方支持的方式使 CLI 自身完成登录。使用 `python "$skill\scripts\workbuddy_planner.py" --check` 只检查可执行文件是否存在，**不验证登录或模型**；成功规划仍需一次真实请求。
 
 ### 启动诊断
 
-`GET /api/health` 的 `ok` 表示服务与 ComfyUI 能通信；`plannerConfigured` 仅表示配置非空。`planner.available` 只检查 CLI 命令和可指定脚本是否存在，`planner.login` 为 `unknown`，不会在健康检查时消耗模型额度或声称已登录。前端会提示找不到规划器；实际规划时如 CLI 返回未登录，会显示登录提示。不要将健康检查当作生图成功。
+`GET /api/health` 的 `ok` 表示服务与 ComfyUI 能通信；`comfyui.available` 和 `library.available` 分别表示 ComfyUI 连通和卡片目录存在，目录存在不代表卡片已核验。`plannerConfigured` 仅表示配置非空。`planner.available` 只检查 CLI 命令和可指定脚本是否存在，`planner.login` 为 `unknown`，不会在健康检查时消耗模型额度或声称已登录。前端会提示找不到规划器；实际规划时如 CLI 返回未登录，会显示登录提示。不要将健康检查当作生图成功。
 
 `launch_frontend.py` 在当前终端持有 Vite 进程直到 Ctrl+C。它会提示 Agent 服务是否可达，但不启动 Agent 服务或 ComfyUI。在会回收子进程的工具执行环境中，应使用持久的前台终端运行并保持该任务开启；本机前台启动和停止已测试，不能保证所有桌面或沙箱环境都保留子进程。
 
